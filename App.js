@@ -9,7 +9,7 @@ import {
   SpaceGrotesk_700Bold,
 } from "@expo-google-fonts/space-grotesk";
 import Colors from "./constants/colors";
-import AppFonts from "./constants/app.fonts";
+import AppFonts from "./constants/app-fonts";
 
 export default function App() {
   let [fontsLoaded] = useFonts({
