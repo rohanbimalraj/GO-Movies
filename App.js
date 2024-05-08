@@ -1,5 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
+import { useEffect } from "react";
+import * as SplashScreen from 'expo-splash-screen';
 import {
   useFonts,
   SpaceGrotesk_300Light,
@@ -20,8 +22,17 @@ export default function App() {
     SpaceGrotesk_700Bold,
   });
 
+  useEffect(() => {
+    async function prepare() {
+      SplashScreen.preventAutoHideAsync()
+    }
+    prepare()
+  }, [])
+
   if (!fontsLoaded) {
     return <View></View>;
+  }else {
+    SplashScreen.hideAsync()
   }
 
   return (
