@@ -32,7 +32,9 @@ export default function App() {
   if (!fontsLoaded) {
     return <View></View>;
   }else {
-    SplashScreen.hideAsync()
+    setTimeout(() => {
+      SplashScreen.hideAsync()
+    }, 3000)
   }
 
   return (
