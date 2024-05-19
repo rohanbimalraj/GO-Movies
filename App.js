@@ -18,6 +18,7 @@ import SearchScreen from "./screens/SearchScreen";
 import FavouritesScreen from "./screens/FavouritesScreen";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "./constants/colors";
+import AppFonts from "./constants/app-fonts";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -36,6 +37,9 @@ function TabBarScreen() {
           paddingTop: 10,
           position: "absolute",
           overflow: "hidden",
+        },
+        tabBarLabelStyle: {
+          fontFamily: AppFonts.SG_Regular,
         },
         tabBarInactiveTintColor: Colors.accent500,
         tabBarActiveTintColor: Colors.accent600,
