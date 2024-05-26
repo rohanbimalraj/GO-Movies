@@ -1,16 +1,27 @@
-import { View, Text, StyleSheet } from "react-native";
-import AppFonts from "../constants/app-fonts";
+import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 import Colors from "../constants/colors";
 import { LinearGradient } from "expo-linear-gradient";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+
+//DUMMY DATA IMPORTS
+import nowPlayingMovies from '../data/now-playing.json'
 
 function HomeScreen() {
+
+  const tabBarHeight = useBottomTabBarHeight();
+  
   return (
     <LinearGradient
       colors={[Colors.primary700, Colors.primary600]}
       style={styles.rootContainer}
     >
-      <View style={styles.rootContainer}>
-        <Text style={styles.title}>Home Screen</Text>
+      <View style={[styles.rootContainer, {marginBottom: tabBarHeight}]}>
+        <SafeAreaView />
+        <View style={styles.carouselContainer}>
+          <Text>Rohan Bimal Raj</Text>
+        </View>
+        <View style={styles.horizontalListContainer}></View>
+        <View style={styles.horizontalListContainer}></View>
       </View>
     </LinearGradient>
   );
@@ -21,12 +32,13 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
-  title: {
-    fontFamily: AppFonts.SG_Bold,
-    fontSize: 24,
-    color: Colors.accent500,
+  carouselContainer: {
+    flex: 1,
+    backgroundColor: "red",
+  },
+  horizontalListContainer: {
+    flex: 1,
+    backgroundColor: "blue",
   },
 });
