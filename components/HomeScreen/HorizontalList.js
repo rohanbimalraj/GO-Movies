@@ -1,16 +1,8 @@
 import { View, StyleSheet, FlatList, Text } from "react-native";
-import { useState } from "react";
 import TitleButton from "./TitleButton";
 import MoviePoster from "./MoviePoster";
 
 function HorizontalList({ title, data }) {
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-
-  function onLayout(event) {
-    const { width, height } = event.nativeEvent.layout;
-    setDimensions({ width, height });
-  }
-
   function buttonPressHandler() {
     console.log("More Button Pressed");
   }
@@ -20,16 +12,11 @@ function HorizontalList({ title, data }) {
       <FlatList
         data={data}
         renderItem={({ item }) => (
-          <MoviePoster
-            posterPath={item.poster_path}
-            height={dimensions.height}
-            width={dimensions.width}
-          />
+          <MoviePoster id={item.id} posterPath={item.poster_path} />
         )}
         keyExtractor={(item) => item.id}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        onLayout={onLayout}
       />
     </View>
   );
