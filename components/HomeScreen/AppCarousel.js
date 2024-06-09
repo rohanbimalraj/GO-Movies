@@ -1,11 +1,11 @@
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import Colors from "../../constants/colors";
 import Carousel from "react-native-reanimated-carousel";
 import CarouselItem from "./CarouselItem";
-import { useEffect, useState } from "react";
 
-function AppCarousel({ data }) {
-  const width = Dimensions.get("window").width;
+const width = Dimensions.get("window").width;
+
+function AppCarousel({ data, onSnapToItem }) {
 
   return (
     <View style={styles.container}>
@@ -16,6 +16,7 @@ function AppCarousel({ data }) {
         autoPlay={true}
         scrollAnimationDuration={1000}
         autoPlayInterval={2000}
+        onSnapToItem={onSnapToItem}
         renderItem={({ item }) => {
           return (
             <CarouselItem
@@ -38,8 +39,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: Colors.primary500,
-  },
-  title: {
-    color: Colors.accent600,
-  },
+  }
 });
