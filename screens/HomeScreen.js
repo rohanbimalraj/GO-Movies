@@ -1,4 +1,10 @@
-import { View, StyleSheet, SafeAreaView, Dimensions } from "react-native";
+import {
+  View,
+  StyleSheet,
+  SafeAreaView,
+  Dimensions,
+  ScrollView,
+} from "react-native";
 import Colors from "../constants/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
@@ -7,12 +13,11 @@ import AppCarousel from "../components/HomeScreen/AppCarousel";
 import DotIndicator from "../components/HomeScreen/DotIndicator";
 import HorizontalList from "../components/HomeScreen/HorizontalList";
 
-
 //DUMMY DATA IMPORTS
 import nowPlayingMovies from "../data/now-playing.json";
-import topRatedMovies from "../data/top-rated.json"
-import popularMovies from "../data/popular.json"
-
+import topRatedMovies from "../data/top-rated.json";
+import popularMovies from "../data/popular.json";
+import upcomingMovies from "../data/upcoming.json";
 
 function HomeScreen() {
   const tabBarHeight = useBottomTabBarHeight();
@@ -28,22 +33,21 @@ function HomeScreen() {
     >
       <View style={[styles.rootContainer, { marginBottom: tabBarHeight + 8 }]}>
         <SafeAreaView />
-        <View style={styles.carouselContainer}>
-          <AppCarousel
-            data={nowPlayingMovies.results}
-            onSnapToItem={carouselUpdateHandler}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.carouselContainer}>
+            <AppCarousel
+              data={nowPlayingMovies.results}
+              onSnapToItem={carouselUpdateHandler}
+            />
+          </View>
+          <DotIndicator
+            length={nowPlayingMovies.results.length}
+            currentIndex={currentIndex}
           />
-        </View>
-        <DotIndicator
-          length={nowPlayingMovies.results.length}
-          currentIndex={currentIndex}
-        />
-        <View style={styles.horizontalListContainer}>
-          <HorizontalList title="Top Rated" data={topRatedMovies.results}/>
-        </View>
-        <View style={styles.horizontalListContainer}>
-          <HorizontalList title="Popular" data={popularMovies.results}/>
-        </View>
+          <HorizontalList title="Popular" data={popularMovies.results} />
+          <HorizontalList title="Top Rated" data={topRatedMovies.results} />
+          <HorizontalList title="Upcoming" data={upcomingMovies.results} />
+        </ScrollView>
       </View>
     </LinearGradient>
   );
@@ -60,10 +64,5 @@ const styles = StyleSheet.create({
   carouselContainer: {
     width: width,
     height: width / 2,
-  },
-  horizontalListContainer: {
-    flex: 1,
-    //borderWidth: 2,
-    //borderColor: Colors.accent500,
   },
 });

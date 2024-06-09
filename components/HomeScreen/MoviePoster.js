@@ -7,7 +7,7 @@ function MoviePoster({ id, posterPath, height, width }) {
     <View style={styles.rootContainer}>
       <Image
         source={{ uri: BASE_URL + posterPath }}
-        style={[styles.image, { height: height - 10, width: width/3 }]}
+        style={[styles.image, { height: 1.5 * width/3, width: width/3 }]}
       />
     </View>
   );
