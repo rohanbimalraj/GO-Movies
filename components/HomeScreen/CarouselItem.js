@@ -5,24 +5,23 @@ import {
   ImageBackground,
   StyleSheet,
   Dimensions,
-  Pressable,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AppFonts from "../../constants/app-fonts";
 import Colors from "../../constants/colors";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const BASE_URL = "https://image.tmdb.org/t/p/w780";
 const width = Dimensions.get("window").width;
 
 function CarouselItem({ id, title, backDropPath }) {
-
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   function onPressHandler() {
-    console.log('Movie Id: ', id)
-    navigation.navigate('Details')
+    console.log("Movie Id: ", id);
+    navigation.navigate("Details");
   }
   return (
-    <Pressable style={styles.container} onPress={onPressHandler}>
+    <TouchableOpacity onPress={onPressHandler} activeOpacity={1.0}>
       <View style={styles.container}>
         <ImageBackground
           style={styles.container}
@@ -39,7 +38,7 @@ function CarouselItem({ id, title, backDropPath }) {
           </LinearGradient>
         </ImageBackground>
       </View>
-    </Pressable>
+    </TouchableOpacity>
   );
 }
 
@@ -47,7 +46,8 @@ export default CarouselItem;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: "100%",
+    height: "100%",
   },
   backDroup: {
     width: width,

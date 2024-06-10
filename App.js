@@ -106,3 +106,8 @@ export default function App() {
     </>
   );
 }
+
+//To Remove npm packages
+//1) npm unlink <Module Name>
+
+//2) npm uninstall --save <Module name

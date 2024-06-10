@@ -5,7 +5,12 @@ import AppFonts from "../../constants/app-fonts";
 
 function TitleButton({ title, onPress }) {
   return (
-    <Pressable style={({ pressed }) => pressed && styles.pressed} onPress={onPress}>
+    <Pressable
+      style={({ pressed }) =>
+        pressed ? [styles.button, styles.pressed] : styles.button
+      }
+      onPress={onPress}
+    >
       <View style={styles.titleContainer}>
         <Text style={styles.titleText}>{title}</Text>
         <MaterialIcons
@@ -22,7 +27,6 @@ export default TitleButton;
 
 const styles = StyleSheet.create({
   titleContainer: {
-    //backgroundColor: 'blue',
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 8,
@@ -34,6 +38,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   pressed: {
-    opacity: 0.5
-  }
+    opacity: 0.5,
+  },
+  button: {
+    width: 130,
+  },
 });
