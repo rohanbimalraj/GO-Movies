@@ -17,19 +17,25 @@ function MoviePoster({ id, posterPath }) {
   function onLoad() {
     setLoading(false);
   }
+
+  function onPressHandler() {
+    console.log("Movie ID", id)
+  }
   return (
-    <View style={styles.rootContainer}>
-      {loading && (
-        <View style={styles.loader}>
-          <ActivityIndicator size="large" color={Colors.primary600} />
-        </View>
-      )}
-      <Image
-        source={{ uri: BASE_URL + posterPath }}
-        style={styles.image}
-        onLoad={onLoad}
-      />
-    </View>
+    <Pressable style={({pressed}) => pressed && styles.pressed} onPress={onPressHandler}>
+      <View style={styles.rootContainer}>
+        {loading && (
+          <View style={styles.loader}>
+            <ActivityIndicator size="large" color={Colors.primary600} />
+          </View>
+        )}
+        <Image
+          source={{ uri: BASE_URL + posterPath }}
+          style={styles.image}
+          onLoad={onLoad}
+        />
+      </View>
+    </Pressable>
   );
 }
 
@@ -58,4 +64,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "rgba(255, 255, 255, 0.5)", // semi-transparent white background
   },
+  pressed: {
+    opacity: 0.5
+  }
 });
