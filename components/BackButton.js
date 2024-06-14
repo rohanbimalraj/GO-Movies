@@ -1,12 +1,18 @@
 import { View, Image, Pressable, StyleSheet } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import Colors from "../constants/colors";
+import { useNavigation } from "@react-navigation/native";
 
-function BackButton({ onPress }) {
-  
+
+function BackButton({ style }) {
+  const navigation = useNavigation();
+
+  function backButtonHandler() {
+    navigation.goBack();
+  }
   return (
-    <Pressable onPress={onPress} style={({pressed}) => pressed && styles.pressed}>
-      <View style={styles.container}>
+    <Pressable onPress={backButtonHandler} style={({pressed}) => pressed && styles.pressed}>
+      <View style={[styles.container, style]}>
         <FontAwesome
           name="arrow-left"
           size={24}
