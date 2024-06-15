@@ -63,6 +63,6 @@ const styles = StyleSheet.create({
   },
   carouselContainer: {
     width: width,
-    height: width / 2,
+    height: width*0.6,
   },
 });

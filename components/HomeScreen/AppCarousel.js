@@ -11,7 +11,7 @@ function AppCarousel({ data, onSnapToItem }) {
     <View style={styles.container}>
       <Carousel
         width={width}
-        height={width / 2}
+        height={width*0.6}
         data={data}
         autoPlay={true}
         scrollAnimationDuration={1000}

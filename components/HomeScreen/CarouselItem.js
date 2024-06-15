@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   },
   backDroup: {
     width: width,
-    height: width / 2,
+    height: width*0.6,
     resizeMode: "cover",
   },
   titleContainer: {
