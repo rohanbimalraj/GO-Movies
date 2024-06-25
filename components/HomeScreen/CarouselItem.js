@@ -5,7 +5,7 @@ import {
   ImageBackground,
   StyleSheet,
   Dimensions,
-  ActivityIndicator
+  ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AppFonts from "../../constants/app-fonts";
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   },
   backDroup: {
     width: width,
-    height: width*0.6,
+    height: width * 0.6,
     resizeMode: "cover",
   },
   titleContainer: {
@@ -79,14 +79,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: Colors.accent500,
   },
-    loader: {
-    position: 'absolute',
+  loader: {
+    position: "absolute",
     top: 0,
     bottom: 0,
     left: 0,
     right: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.5)', // semi-transparent white background
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.5)", // semi-transparent white background
   },
 });

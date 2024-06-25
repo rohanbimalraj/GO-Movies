@@ -1,72 +1,78 @@
 {
-    "adult": false,
-    "backdrop_path": "/tpiqEVTLRz2Mq7eLq5DT8jSrp71.jpg",
-    "belongs_to_collection": {
-      "id": 934765,
-      "name": "Rebel Moon Collection",
-      "poster_path": "/17fiEIxD7ClGW33IdxpRb0mdXgF.jpg",
-      "backdrop_path": "/tCo96jmjKEMoWa5eCZNNss3MtMH.jpg"
+  "adult": false,
+  "backdrop_path": "/fY3lD0jM5AoHJMunjGWqJ0hRteI.jpg",
+  "belongs_to_collection": null,
+  "budget": 15000000,
+  "genres": [
+    {
+      "id": 878,
+      "name": "Science Fiction"
     },
-    "budget": 83000000,
-    "genres": [
-      {
-        "id": 878,
-        "name": "Science Fiction"
-      },
-      {
-        "id": 28,
-        "name": "Action"
-      },
-      {
-        "id": 18,
-        "name": "Drama"
-      }
-    ],
-    "homepage": "https://www.netflix.com/title/81624666",
-    "id": 934632,
-    "imdb_id": "tt23137904",
-    "origin_country": [
-      "US"
-    ],
-    "original_language": "en",
-    "original_title": "Rebel Moon - Part Two: The Scargiver",
-    "overview": "The rebels gear up for battle against the ruthless forces of the Motherworld as unbreakable bonds are forged, heroes emerge — and legends are made.",
-    "popularity": 287.627,
-    "poster_path": "/cxevDYdeFkiixRShbObdwAHBZry.jpg",
-    "production_companies": [
-      {
-        "id": 114152,
-        "logo_path": "/xYfrnGFXxrEy5x5OVThunxHYScK.png",
-        "name": "The Stone Quarry",
-        "origin_country": "US"
-      },
-      {
-        "id": 156880,
-        "logo_path": null,
-        "name": "Grand Electric",
-        "origin_country": "US"
-      }
-    ],
-    "production_countries": [
-      {
-        "iso_3166_1": "US",
-        "name": "United States of America"
-      }
-    ],
-    "release_date": "2024-04-19",
-    "revenue": 0,
-    "runtime": 123,
-    "spoken_languages": [
-      {
-        "english_name": "English",
-        "iso_639_1": "en",
-        "name": "English"
-      }
-    ],
-    "status": "Released",
-    "tagline": "",
-    "title": "Rebel Moon - Part Two: The Scargiver",
-    "video": false,
-    "vote_average": 6.098,
-    "vote_count": 859
-  }
+    {
+      "id": 27,
+      "name": "Horror"
+    },
+    {
+      "id": 28,
+      "name": "Action"
+    }
+  ],
+  "homepage": "https://godzillafilm.co.uk",
+  "id": 940721,
+  "imdb_id": "tt23289160",
+  "origin_country": [
+    "JP"
+  ],
+  "original_language": "ja",
+  "original_title": "ゴジラ-1.0",
+  "overview": "In postwar Japan, Godzilla brings new devastation to an already scorched landscape. With no military intervention or government help in sight, the survivors must join together in the face of despair and fight back against an unrelenting horror.",
+  "popularity": 515.958,
+  "poster_path": "/hkxxMIGaiCTmrEArK7J56JTKUlB.jpg",
+  "production_companies": [
+    {
+      "id": 882,
+      "logo_path": "/iDw9Xxok1d9WAM2zFicI8p3khTH.png",
+      "name": "TOHO",
+      "origin_country": "JP"
+    },
+    {
+      "id": 182161,
+      "logo_path": "/wvG4lK0m76M6jK8WbWkXNecA7SP.png",
+      "name": "TOHO Studios",
+      "origin_country": "JP"
+    },
+    {
+      "id": 12386,
+      "logo_path": "/oxvw2Mrq3GcTxFc2mlT7E5tpek7.png",
+      "name": "Robot Communications",
+      "origin_country": "JP"
+    }
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "JP",
+      "name": "Japan"
+    }
+  ],
+  "release_date": "2023-11-03",
+  "revenue": 115857413,
+  "runtime": 125,
+  "spoken_languages": [
+    {
+      "english_name": "English",
+      "iso_639_1": "en",
+      "name": "English"
+    },
+    {
+      "english_name": "Japanese",
+      "iso_639_1": "ja",
+      "name": "日本語"
+    }
+  ],
+  "status": "Released",
+  "tagline": "Postwar Japan. From zero to minus.",
+  "title": "Godzilla Minus One",
+  "video": false,
+  "vote_average": 7.616,
+  "vote_count": 1636
+}
