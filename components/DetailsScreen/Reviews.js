@@ -2,12 +2,13 @@ import { View, StyleSheet, Text } from "react-native";
 import ReviewCard from "./ReviewCard";
 
 function Reviews({ reviews }) {
+  const reversedArray = reviews.reverse()
   return (
-    <View>
-      {reviews.map((review) => (
+    <View style={styles.container}>
+      {reversedArray.map((review) => (
         <ReviewCard
           author={review.author}
-          date={"12 June 2024"}
+          date={review.updated_at}
           review={review.content}
           key={review.id}
         />
@@ -18,4 +19,8 @@ function Reviews({ reviews }) {
 
 export default Reviews;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 20
+  }
+});

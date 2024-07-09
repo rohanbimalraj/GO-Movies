@@ -9,36 +9,25 @@ import { formatDate } from "../utils/date-formatter";
 import { useState } from "react";
 import Reviews from "../components/DetailsScreen/Reviews";
 import Animated, {Easing, Layout} from 'react-native-reanimated'
+import MoreDetails from "../components/DetailsScreen/MoreDetails";
+
 //DUMMY  DATA
 import movieDetail from "../data/movie-detail.json";
 import reviews from '../data/reviews.json'
+import cast from '../data/cast.json'
 
 const width = Dimensions.get("window").width;
-
-const FirstRoute = () => (
-  <View style={{ width: width, height: 300}} />
-);
 
 const SecondRoute = () => (
   <View style={{ width: width, height: 100, backgroundColor: 'red' }} />
 );
 
-const renderScene = ({ route }) => {
-  switch (route.key) {
-    case 'reviews':
-      return <Reviews reviews={reviews.results}/>;
-    case 'second':
-      return <SecondRoute />;
-    default:
-      return null;
-  }
-};
 
 function DetailsScreen() {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     { key: "reviews", title: "Reviews" },
-    { key: "second", title: "More Details" },
+    { key: "moreDetails", title: "More Details" },
   ]);
 
   const renderTabBar = (props) => (
@@ -91,7 +80,7 @@ function DetailsScreen() {
             swipeEnabled={false}
           />
         {index === 0 && <Reviews reviews={reviews.results}/>}
-        {index === 1 && <SecondRoute />}
+        {index === 1 && <MoreDetails cast={cast}/>}
         </Animated.ScrollView>
         </SafeAreaView>
     </LinearGradient>
