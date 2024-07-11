@@ -19,6 +19,9 @@ import FavouritesScreen from "./screens/FavouritesScreen";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "./constants/colors";
 import AppFonts from "./constants/app-fonts";
+import { useEffect, useState } from "react";
+import { fetchNowPlayingMovies } from "./utils/https";
+import ErrorScreen from "./components/ErrorScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -78,6 +81,21 @@ function TabBarScreen() {
 }
 
 export default function App() {
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  useEffect(() => {
+    const getData = async () => {
+      const result = await fetchNowPlayingMovies();
+      if (result.error) {
+        setError(result.error)
+      } else {
+        console.log(result.data);
+      }
+      setLoading(false)
+    };
+    getData();
+  }, []);
+
   let [fontsLoaded] = useFonts({
     SpaceGrotesk_300Light,
     SpaceGrotesk_400Regular,
@@ -86,12 +104,17 @@ export default function App() {
     SpaceGrotesk_700Bold,
   });
 
-  if (!fontsLoaded) {
+  if (!fontsLoaded || loading) {
     return <View></View>;
   } else {
     setTimeout(() => {
       SplashScreen.hideAsync();
-    }, 3000);
+    }, 2000);
+  }
+
+  if (error) {
+    console.log("Rohan's error")
+    return <ErrorScreen />
   }
 
   return (
