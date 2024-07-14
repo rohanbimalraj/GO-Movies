@@ -22,6 +22,7 @@ import AppFonts from "./constants/app-fonts";
 import { useEffect, useState } from "react";
 import { fetchNowPlayingMovies } from "./utils/https";
 import ErrorScreen from "./components/ErrorScreen";
+import { useRoute } from "@react-navigation/native";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -29,6 +30,8 @@ const Tab = createBottomTabNavigator();
 SplashScreen.preventAutoHideAsync();
 
 function TabBarScreen() {
+  const route = useRoute();
+  const { nowPlayingMovies } = route.params;
   return (
     <Tab.Navigator
       screenOptions={{
@@ -52,6 +55,7 @@ function TabBarScreen() {
       <Tab.Screen
         name="Home"
         component={HomeScreen}
+        initialParams={{nowPlayingMovies: nowPlayingMovies}}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" size={size} color={color} />
@@ -81,19 +85,27 @@ function TabBarScreen() {
 }
 
 export default function App() {
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  useEffect(() => {
-    const getData = async () => {
-      const result = await fetchNowPlayingMovies();
-      if (result.error) {
-        setError(result.error)
-      } else {
-        console.log(result.data);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [nowPlayingMovies, setNowPlayingMovies] = useState([])
+  const [popularMovies, setPopularMovies] = useState([])
+
+  async function fetchData() {
+    const result = await fetchNowPlayingMovies();
+    if (result.error) {
+      setError(result.error);
+    } else {
+      if (error) {
+        setError(null)
       }
-      setLoading(false)
-    };
-    getData();
+      setNowPlayingMovies(result.data.results)
+    }
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   let [fontsLoaded] = useFonts({
@@ -113,8 +125,7 @@ export default function App() {
   }
 
   if (error) {
-    console.log("Rohan's error")
-    return <ErrorScreen />
+    return <ErrorScreen onRetry={fetchData} />;
   }
 
   return (
@@ -122,7 +133,7 @@ export default function App() {
       <StatusBar style="light" />
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Tab Bar" component={TabBarScreen} />
+          <Stack.Screen name="Tab Bar" component={TabBarScreen} initialParams={{nowPlayingMovies: nowPlayingMovies}}/>
           <Stack.Screen name="Details" component={DetailsScreen} />
         </Stack.Navigator>
       </NavigationContainer>

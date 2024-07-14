@@ -3,7 +3,7 @@ import AppFonts from "../constants/app-fonts";
 import Colors from "../constants/colors";
 import { LinearGradient } from "expo-linear-gradient";
 
-function ErrorScreen() {
+function ErrorScreen({ onRetry }) {
   return (
     <LinearGradient
       colors={[Colors.primary700, Colors.primary600]}
@@ -11,7 +11,7 @@ function ErrorScreen() {
     >
       <View style={styles.rootContainer}>
         <Text style={styles.title}>Oops something went wrong!! 😞</Text>
-        <Pressable style={({pressed}) => pressed && styles.pressed}>
+        <Pressable style={({pressed}) => pressed && styles.pressed} onPress={onRetry}>
             <Text style={styles.retry}>Retry</Text>
         </Pressable>
       </View>
