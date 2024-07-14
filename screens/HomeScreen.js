@@ -8,20 +8,15 @@ import {
 import Colors from "../constants/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import AppCarousel from "../components/HomeScreen/AppCarousel";
 import DotIndicator from "../components/HomeScreen/DotIndicator";
 import HorizontalList from "../components/HomeScreen/HorizontalList";
 import { useRoute } from "@react-navigation/native";
 
-//DUMMY DATA IMPORTS
-import topRatedMovies from "../data/top-rated.json";
-import popularMovies from "../data/popular.json";
-import upcomingMovies from "../data/upcoming.json";
-
 function HomeScreen() {
   const route = useRoute();
-  const { nowPlayingMovies } = route.params;
+  const movies = route.params;
   const tabBarHeight = useBottomTabBarHeight();
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -38,17 +33,26 @@ function HomeScreen() {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.carouselContainer}>
             <AppCarousel
-              data={nowPlayingMovies}
+              data={movies.nowPlayingMovies}
               onSnapToItem={carouselUpdateHandler}
             />
           </View>
           <DotIndicator
-            length={nowPlayingMovies.length}
+            length={movies.nowPlayingMovies.length}
             currentIndex={currentIndex}
           />
-          <HorizontalList title="Popular" data={popularMovies.results} />
-          <HorizontalList title="Top Rated" data={topRatedMovies.results} />
-          <HorizontalList title="Upcoming" data={upcomingMovies.results} />
+          <HorizontalList
+            title="Popular"
+            data={movies.popularMovies}
+          />
+          <HorizontalList
+            title="Top Rated"
+            data={movies.topRatedMovies}
+          />
+          <HorizontalList
+            title="Upcoming"
+            data={movies.upcomingMovies}
+          />
         </ScrollView>
       </View>
     </LinearGradient>
@@ -65,6 +69,6 @@ const styles = StyleSheet.create({
   },
   carouselContainer: {
     width: width,
-    height: width*0.6,
+    height: width * 0.6,
   },
 });

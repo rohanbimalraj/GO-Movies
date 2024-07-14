@@ -19,8 +19,13 @@ import FavouritesScreen from "./screens/FavouritesScreen";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "./constants/colors";
 import AppFonts from "./constants/app-fonts";
-import { useEffect, useState } from "react";
-import { fetchNowPlayingMovies } from "./utils/https";
+import { useEffect, useState, useContext } from "react";
+import {
+  fetchNowPlayingMovies,
+  fetchPopularMovies,
+  fetchTopRatedMovies,
+  fetchUpcomingMovies,
+} from "./utils/https";
 import ErrorScreen from "./components/ErrorScreen";
 import { useRoute } from "@react-navigation/native";
 
@@ -31,7 +36,7 @@ SplashScreen.preventAutoHideAsync();
 
 function TabBarScreen() {
   const route = useRoute();
-  const { nowPlayingMovies } = route.params;
+  const movies =route.params;
   return (
     <Tab.Navigator
       screenOptions={{
@@ -55,7 +60,7 @@ function TabBarScreen() {
       <Tab.Screen
         name="Home"
         component={HomeScreen}
-        initialParams={{nowPlayingMovies: nowPlayingMovies}}
+        initialParams={movies}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" size={size} color={color} />
@@ -85,21 +90,31 @@ function TabBarScreen() {
 }
 
 export default function App() {
-
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [nowPlayingMovies, setNowPlayingMovies] = useState([])
-  const [popularMovies, setPopularMovies] = useState([])
+  const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
+  const [popularMovies, setPopularMovies] = useState([]);
+  const [topRatedMovies, setTopRatedMovies] = useState([]);
+  const [upcomingMovies, setUpcomingMovies] = useState([]);
 
   async function fetchData() {
-    const result = await fetchNowPlayingMovies();
-    if (result.error) {
-      setError(result.error);
-    } else {
-      if (error) {
-        setError(null)
-      }
-      setNowPlayingMovies(result.data.results)
+    try {
+      const [response1, response2, response3, response4] = await Promise.all([
+        fetchNowPlayingMovies(),
+        fetchPopularMovies(2),
+        fetchTopRatedMovies(1),
+        fetchUpcomingMovies(2),
+      ]);
+
+      setNowPlayingMovies(response1.data.results);
+      setPopularMovies(response2.data.results);
+      setTopRatedMovies(response3.data.results);
+      setUpcomingMovies(response4.data.results);
+
+      setError(null);
+    } catch (error) {
+      console.log(error);
+      setError(error);
     }
     setLoading(false);
   }
@@ -133,7 +148,16 @@ export default function App() {
       <StatusBar style="light" />
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Tab Bar" component={TabBarScreen} initialParams={{nowPlayingMovies: nowPlayingMovies}}/>
+          <Stack.Screen
+            name="Tab Bar"
+            component={TabBarScreen}
+            initialParams={{
+              nowPlayingMovies: nowPlayingMovies,
+              popularMovies: popularMovies,
+              topRatedMovies: topRatedMovies,
+              upcomingMovies: upcomingMovies,
+            }}
+          />
           <Stack.Screen name="Details" component={DetailsScreen} />
         </Stack.Navigator>
       </NavigationContainer>
