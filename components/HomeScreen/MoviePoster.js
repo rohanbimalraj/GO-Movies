@@ -8,10 +8,12 @@ import {
 } from "react-native";
 import { useState } from "react";
 import Colors from "../../constants/colors";
+import { useNavigation } from "@react-navigation/native";
 
 const BASE_URL = "https://image.tmdb.org/t/p/w342";
 
 function MoviePoster({ id, posterPath }) {
+  const navigation = useNavigation();
   const [loading, setLoading] = useState(true);
 
   function onLoad() {
@@ -19,7 +21,7 @@ function MoviePoster({ id, posterPath }) {
   }
 
   function onPressHandler() {
-    console.log("Movie ID", id)
+    navigation.navigate("Details", {id: id});
   }
   return (
     <Pressable style={({pressed}) => pressed && styles.pressed} onPress={onPressHandler}>

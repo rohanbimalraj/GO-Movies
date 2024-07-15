@@ -11,6 +11,8 @@ import { useState } from "react";
 import Colors from "../../constants/colors";
 import AppFonts from "../../constants/app-fonts";
 import BackButton from "../BackButton";
+import { AntDesign } from "@expo/vector-icons";
+import FavouriteButton from "./FavouriteButton";
 
 const BASE_URL = "https://image.tmdb.org/t/p/w780";
 
@@ -40,7 +42,10 @@ function ImageHeader({ title, backdropPath }) {
 
           <BackButton style={styles.backButton} />
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>{title}</Text>
+            <View style={styles.bottomContainer}>
+              <Text style={styles.title}>{title}</Text>
+              <FavouriteButton />
+            </View>
           </View>
         </LinearGradient>
       </ImageBackground>
@@ -69,14 +74,13 @@ const styles = StyleSheet.create({
   titleContainer: {
     flex: 1,
     justifyContent: "flex-end",
-    alignItems: "flex-start",
     paddingBottom: 20,
-    paddingLeft: 10,
   },
   title: {
     fontFamily: AppFonts.SG_Bold,
     fontSize: 24,
     color: Colors.accent500,
+    width: 300
   },
   backButton: {
     paddingLeft: 10,
@@ -91,5 +95,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(255, 255, 255, 0.5)", // semi-transparent white background
+  },
+  bottomContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginLeft: 10,
+    marginRight: 30,
   },
 });

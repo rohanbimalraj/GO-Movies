@@ -8,22 +8,18 @@ import ImageHeader from "../components/DetailsScreen/ImageHeader";
 import { formatDate } from "../utils/date-formatter";
 import { useState } from "react";
 import Reviews from "../components/DetailsScreen/Reviews";
-import Animated, {Easing, Layout} from 'react-native-reanimated'
+import Animated, { Easing, Layout } from "react-native-reanimated";
 import MoreDetails from "../components/DetailsScreen/MoreDetails";
-
-//DUMMY  DATA
-import movieDetail from "../data/movie-detail.json";
-import reviews from '../data/reviews.json'
-import cast from '../data/cast.json'
+import { useRoute } from "@react-navigation/native";
+import LoadingIndicator from "../components/LoadingIndicator";
+import { fetchMovieCredits, fetchMovieDetails, fetchMovieReviews } from "../utils/https";
+import { useEffect } from "react";
+import ErrorScreen from "../components/ErrorScreen";
 
 const width = Dimensions.get("window").width;
 
-const SecondRoute = () => (
-  <View style={{ width: width, height: 100, backgroundColor: 'red' }} />
-);
-
-
-function DetailsScreen() {
+function ContenView({ movieDeatils }) {
+  const {details, reviews, credits} = movieDeatils
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     { key: "reviews", title: "Reviews" },
@@ -34,9 +30,11 @@ function DetailsScreen() {
     <TabBar
       {...props}
       indicatorStyle={{ backgroundColor: Colors.accent600, height: 2 }}
-      style={{ backgroundColor: "#00000000", shadowOpacity: 0, elevation: 0}}
+      style={{ backgroundColor: "#00000000", shadowOpacity: 0, elevation: 0 }}
       renderLabel={({ route, focused, color }) => (
-        <Text style={[styles.tabBarLabel, focused === false && {opacity: 0.7}]}>
+        <Text
+          style={[styles.tabBarLabel, focused === false && { opacity: 0.7 }]}
+        >
           {route.title}
         </Text>
       )}
@@ -44,45 +42,87 @@ function DetailsScreen() {
   );
 
   return (
+    <SafeAreaView style={styles.rootContainer}>
+      <ImageHeader
+        title={details.title}
+        backdropPath={details.backdrop_path}
+      />
+      <Animated.ScrollView>
+        <Text style={styles.overviewTitle}>Overview</Text>
+        <Text style={styles.overview}>{details.overview}</Text>
+        <View style={styles.genresContainer}>
+          {details.genres.map((genre) => (
+            <View key={genre.id} style={styles.genreContainer}>
+              <Text style={styles.genre}>{genre.name}</Text>
+            </View>
+          ))}
+        </View>
+        <View style={styles.ratingAndReleaseContainer}>
+          <Text style={styles.rating}>
+            TMDB {details.vote_average.toFixed(1)}
+          </Text>
+          <Text style={styles.date}>
+            {formatDate(details.release_date)}
+          </Text>
+        </View>
+        <TabView
+          renderTabBar={renderTabBar}
+          navigationState={{ index, routes }}
+          renderScene={() => null}
+          onIndexChange={setIndex}
+          initialLayout={{ width: width }}
+          swipeEnabled={false}
+        />
+        {index === 0 && <Reviews reviews={reviews.results} />}
+        {index === 1 && <MoreDetails cast={credits} />}
+      </Animated.ScrollView>
+    </SafeAreaView>
+  );
+}
+
+function DetailsScreen() {
+  const route = useRoute();
+  const { id } = route.params;
+  console.log('Movie Id', id)
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [movieDetails, setMovieDetails] = useState(null)
+
+  async function fetchData() {
+    try {
+      const [response1, response2, response3, response4] = await Promise.all([
+        fetchMovieDetails(id),
+        fetchMovieReviews(id),
+        fetchMovieCredits(id)
+      ]);
+
+      setMovieDetails({
+        details: response1.data,
+        reviews: response2.data,
+        credits: response3.data
+      })
+      setError(null);
+    } catch (error) {
+      console.log(error);
+      setError(error);
+    }
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  if (error) {
+    return <ErrorScreen onRetry={fetchData}/>
+  }
+
+  return (
     <LinearGradient
       colors={[Colors.primary700, Colors.primary600]}
       style={styles.rootContainer}
     >
-        <SafeAreaView style={styles.rootContainer}>
-          <ImageHeader
-            title={movieDetail.title}
-            backdropPath={movieDetail.backdrop_path}
-          />
-          <Animated.ScrollView>
-          <Text style={styles.overviewTitle}>Overview</Text>
-          <Text style={styles.overview}>{movieDetail.overview}</Text>
-          <View style={styles.genresContainer}>
-            {movieDetail.genres.map((genre) => (
-              <View key={genre.id} style={styles.genreContainer}>
-                <Text style={styles.genre}>{genre.name}</Text>
-              </View>
-            ))}
-          </View>
-          <View style={styles.ratingAndReleaseContainer}>
-            <Text style={styles.rating}>
-              TMDB {movieDetail.vote_average.toFixed(1)}
-            </Text>
-            <Text style={styles.date}>
-              {formatDate(movieDetail.release_date)}
-            </Text>
-          </View>
-          <TabView
-            renderTabBar={renderTabBar}
-            navigationState={{ index, routes }}
-            renderScene={() => null}
-            onIndexChange={setIndex}
-            initialLayout={{ width: width }}
-            swipeEnabled={false}
-          />
-        {index === 0 && <Reviews reviews={reviews.results}/>}
-        {index === 1 && <MoreDetails cast={cast}/>}
-        </Animated.ScrollView>
-        </SafeAreaView>
+      {loading ? <LoadingIndicator /> : <ContenView movieDeatils={movieDetails}/>}
     </LinearGradient>
   );
 }
@@ -123,7 +163,8 @@ const styles = StyleSheet.create({
   },
   genresContainer: {
     flexDirection: "row",
-    paddingHorizontal: 15,
+    marginHorizontal: 15,
+    flexWrap: 'wrap',
   },
   genre: {
     color: Colors.primary700,
@@ -136,6 +177,7 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: Colors.primary500,
     marginHorizontal: 5,
+    marginVertical: 5
   },
   ratingAndReleaseContainer: {
     flexDirection: "row",
@@ -157,6 +199,6 @@ const styles = StyleSheet.create({
   tabBarLabel: {
     color: Colors.accent500,
     fontSize: 14,
-    fontFamily: AppFonts.SG_Bold
-  }
+    fontFamily: AppFonts.SG_Bold,
+  },
 });

@@ -19,3 +19,15 @@ export async function fetchPopularMovies(page) {
 export async function fetchUpcomingMovies(page) {
     return axios.get('/upcoming', { params: {page: page} })
 }
+
+export async function fetchMovieDetails(id) {
+    return axios.get(`/${id}`)
+}
+
+export async function fetchMovieReviews(id) {
+    return axios.get(`/${id}/reviews`)
+}
+
+export async function fetchMovieCredits(id) {
+    return axios.get(`/${id}/credits`)
+}

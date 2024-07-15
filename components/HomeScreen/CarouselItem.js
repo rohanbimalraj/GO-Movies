@@ -24,8 +24,7 @@ function CarouselItem({ id, title, backDropPath }) {
     setLoading(false);
   }
   function onPressHandler() {
-    console.log("Movie Id: ", id);
-    navigation.navigate("Details");
+    navigation.navigate("Details", {id: id});
   }
   return (
     <TouchableOpacity onPress={onPressHandler} activeOpacity={1.0}>
