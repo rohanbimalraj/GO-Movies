@@ -3,8 +3,8 @@ import AppFonts from "../../constants/app-fonts";
 import Colors from "../../constants/colors";
 
 function MoreDetailCard({ title, elements }) {
-  const requiredElements = elements.slice(0, 10);
-  const tempArray = requiredElements.map(obj => obj.name)
+  // const requiredElements = elements.slice(0, 10);
+  const tempArray = ['Rohan', 'Bimal', 'Raj']// requiredElements.map(obj => obj.name)
   // const requiredStr = tempArray.join(", ");
   return (
     <View style={styles.container}>
