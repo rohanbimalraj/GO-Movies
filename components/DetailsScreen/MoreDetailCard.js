@@ -4,11 +4,11 @@ import Colors from "../../constants/colors";
 
 function MoreDetailCard({ title, elements }) {
   const requiredElements = elements.slice(0, 10);
-  // const requiredStr = requiredElements.map((obj) => obj["name"]).join(", ");
+  const requiredStr = requiredElements.map((obj) => obj["name"]).join(", ");
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
-      {/* <Text style={styles.content}>{requiredStr}</Text> */}
+      <Text style={styles.content}>{requiredStr}</Text>
       <View style={styles.separator}></View>
     </View>
   );
