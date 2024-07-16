@@ -16,9 +16,13 @@ function MoreDetails({ cast }) {
 
   return (
     <View>
-      {acting.length > 0 && <MoreDetailCard title="Actors" elements={acting} />}
+      {/* {acting.length > 0 && <MoreDetailCard title="Actors" elements={acting} />}
       {directing.length > 0 && <MoreDetailCard title="Directors" elements={directing} />}
-      {production.length > 0 && <MoreDetailCard title="Production" elements={production} />}
+      {production.length > 0 && <MoreDetailCard title="Production" elements={production} />} */}
+      <Text>More Details</Text>
+      <Text>{acting.length > 0 ? 'Acting' : 'No Acting'}</Text>
+      <Text>{directing.length > 0 ? 'Directing' : 'No Directing'}</Text>
+      <Text>{production.length > 0 ? 'Production' : 'No Production'}</Text>
     </View>
   );
 }
