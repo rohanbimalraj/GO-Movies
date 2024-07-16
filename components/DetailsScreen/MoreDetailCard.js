@@ -4,11 +4,21 @@ import Colors from "../../constants/colors";
 
 function MoreDetailCard({ title, elements }) {
   const requiredElements = elements.slice(0, 10);
-  const requiredStr = requiredElements.map((obj) => obj["name"]).join(", ");
+  const tempArray = requiredElements.map(obj => obj.name)
+  // const requiredStr = tempArray.join(", ");
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
-      <Text style={styles.content}>{requiredStr}</Text>
+      {/* <Text style={styles.content}>{requiredStr}</Text> */}
+      <View style={styles.namesContainer}>
+        {/* {tempArray.map(name => <Text style={styles.content} key={name}>{name}</Text>)} */}
+        {tempArray.map((name, index, arr) => {
+          if (index === arr.length - 1) {
+            return <Text style={styles.content} key={name}>{name} </Text>
+          }
+          return <Text style={styles.content} key={name}>{name + ', '} </Text>
+        })}
+      </View>
       <View style={styles.separator}></View>
     </View>
   );
@@ -29,7 +39,7 @@ const styles = StyleSheet.create({
     fontFamily: AppFonts.SG_Regular,
     fontFamily: 15,
     color: Colors.accent500,
-    paddingVertical: 10,
+    // paddingVertical: 10,
   },
   separator: {
     width: "100%",
@@ -37,4 +47,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.accent500,
     opacity: 0.5,
   },
+  namesContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingVertical: 10
+  }
 });
