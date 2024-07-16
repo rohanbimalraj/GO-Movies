@@ -165,7 +165,14 @@ export default function App() {
   );
 }
 
-//To Remove npm packages
-//1) npm unlink <Module Name>
+// To Remove npm packages
+// 1) npm unlink <Module Name>
+// 2) npm uninstall --save <Module name
 
-//2) npm uninstall --save <Module name
+// Update Packages
+// 1) expo-doctor@latest
+// 2) npx expo install --check
+
+// Run app without server on device
+// 1) "developmentClient": false
+// 2) eas build --profile development --platform ios
