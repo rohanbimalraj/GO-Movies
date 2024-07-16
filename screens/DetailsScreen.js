@@ -74,8 +74,7 @@ function ContenView({ movieDeatils }) {
           swipeEnabled={false}
         />
         {index === 0 && <Reviews reviews={reviews.results} />}
-        {index === 1 && <Reviews reviews={reviews.results} />}
-        {/* {index === 1 && <MoreDetails cast={credits} />} */}
+        {index === 1 && <MoreDetails cast={credits} />}
       </Animated.ScrollView>
     </SafeAreaView>
   );
