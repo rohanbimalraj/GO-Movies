@@ -2,6 +2,9 @@ import { View, StyleSheet, Text } from "react-native";
 import MoreDetailCard from "./MoreDetailCard";
 
 function MoreDetails({ cast }) {
+  if (!Array.isArray(cast.cast) && !Array.isArray(cast.crew)) {
+    return <View></View>;
+  }
   const acting = cast.cast.filter(
     (person) => person.known_for_department === "Acting"
   );
@@ -17,8 +20,12 @@ function MoreDetails({ cast }) {
   return (
     <View>
       {acting.length > 0 && <MoreDetailCard title="Actors" elements={acting} />}
-      {directing.length > 0 && <MoreDetailCard title="Directors" elements={directing} />}
-      {production.length > 0 && <MoreDetailCard title="Production" elements={production} />}
+      {directing.length > 0 && (
+        <MoreDetailCard title="Directors" elements={directing} />
+      )}
+      {production.length > 0 && (
+        <MoreDetailCard title="Production" elements={production} />
+      )}
     </View>
   );
 }
