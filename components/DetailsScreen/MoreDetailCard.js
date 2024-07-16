@@ -11,7 +11,8 @@ function MoreDetailCard({ title, elements }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
-      <Text style={styles.content}>{requiredStr}</Text>
+      {/* <Text style={styles.content}>{requiredStr}</Text> */}
+      <Text>Rohan Bimal Raj</Text>
       <View style={styles.separator}></View>
     </View>
   );
