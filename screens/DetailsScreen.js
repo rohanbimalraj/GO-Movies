@@ -65,6 +65,8 @@ function ContenView({ movieDeatils }) {
             {formatDate(details.release_date)}
           </Text>
         </View>
+        <Text>{credits.cast.length}</Text>
+        <Text>{credits.crew.length}</Text>
         <TabView
           renderTabBar={renderTabBar}
           navigationState={{ index, routes }}
