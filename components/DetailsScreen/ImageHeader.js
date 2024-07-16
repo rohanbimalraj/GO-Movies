@@ -60,7 +60,7 @@ const width = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   header: {
     width: width,
-    height: width * 0.8,
+    height: width * 0.65,
   },
   container: {
     width: "100%",
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   },
   backDroup: {
     width: width,
-    height: width * 0.8,
+    height: width * 0.65,
     resizeMode: "cover",
   },
   titleContainer: {
