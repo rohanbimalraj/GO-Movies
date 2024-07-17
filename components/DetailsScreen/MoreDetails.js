@@ -1,19 +1,17 @@
 import { View, StyleSheet, Text } from "react-native";
 import MoreDetailCard from "./MoreDetailCard";
 
-function MoreDetails({ cast }) {
-  if (!Array.isArray(cast.cast) && !Array.isArray(cast.crew)) {
-    return <View></View>;
-  }
-  const acting = cast.cast.filter(
+function MoreDetails({ credits }) {
+
+  const acting = credits.cast.filter(
     (person) => person.known_for_department === "Acting"
   );
 
-  const directing = cast.crew.filter(
+  const directing = credits.crew.filter(
     (person) => person.known_for_department === "Directing"
   );
 
-  const production = cast.crew.filter(
+  const production = credits.crew.filter(
     (person) => person.known_for_department === "Production"
   );
 

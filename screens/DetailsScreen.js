@@ -3,7 +3,7 @@ import AppFonts from "../constants/app-fonts";
 import Colors from "../constants/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { TabView, SceneMap, TabBar } from "react-native-tab-view";
+import { TabView, TabBar } from "react-native-tab-view";
 import ImageHeader from "../components/DetailsScreen/ImageHeader";
 import { formatDate } from "../utils/date-formatter";
 import { useState } from "react";
@@ -74,7 +74,7 @@ function ContenView({ movieDeatils }) {
           swipeEnabled={false}
         />
         {index === 0 && <Reviews reviews={reviews.results} />}
-        {index === 1 && <MoreDetails cast={credits} />}
+        {index === 1 && <MoreDetails credits={credits} />}
       </Animated.ScrollView>
     </SafeAreaView>
   );
