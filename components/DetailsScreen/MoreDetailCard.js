@@ -12,7 +12,8 @@ function MoreDetailCard({ title, elements }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
-      <Text style={styles.content}>{requiredStr}</Text>
+      {/* <Text style={styles.content}>{requiredStr}</Text> */}
+      <Text>{requiredStr}</Text>
       <View style={styles.separator}></View>
     </View>
   );
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
     fontFamily: AppFonts.SG_Regular,
     fontFamily: 15,
     color: Colors.accent500,
-    paddingVertical: 10,
+    // paddingVertical: 10,
   },
   separator: {
     width: "100%",
