@@ -5,6 +5,10 @@ import Colors from "../../constants/colors";
 function MoreDetailCard({ title, elements }) {
   const requiredElements = elements.slice(0, 10);
   const requiredStr = requiredElements.map((obj) => obj.name).join(", ");
+
+  if (typeof requiredStr !== 'string') {
+    return <Text>Not a string</Text>
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
