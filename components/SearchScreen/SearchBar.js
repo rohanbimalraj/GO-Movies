@@ -10,17 +10,18 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-function SearchBar() {
+function SearchBar({ onEndEditing, onClear }) {
   const [text, setText] = useState("");
   const [debouncedText, setDebouncedText] = useState("");
-  const [visible, setVisible] = useState(false);
   const opacity = useSharedValue(0);
 
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      opacity: opacity.value,
-    };
-  });
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }));
+
+  useEffect(() => {
+    opacity.value = withTiming(text ? 1 : 0, { duration: 500 });
+  }, [text]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -33,7 +34,7 @@ function SearchBar() {
 
   useEffect(() => {
     if (debouncedText) {
-      console.log("Making API call with:", debouncedText);
+      onEndEditing(debouncedText)
     }
   }, [debouncedText]);
 
@@ -43,22 +44,12 @@ function SearchBar() {
 
   function onTextChangeHandler(text) {
     console.log(text);
-    toggleVisibility()
     setText(text);
   }
 
   function onClearHandler() {
     setText("");
-  }
-
-  function toggleVisibility() {
-    if (text !== '') {
-      opacity.value = withTiming(0, { duration: 500 });
-      setTimeout(() => setVisible(false), 500); // Set visible to false after the animation
-    } else {
-      setVisible(true);
-      opacity.value = withTiming(1, { duration: 500 });
-    }
+    onClear()
   }
 
   return (
@@ -78,9 +69,8 @@ function SearchBar() {
           selectionColor={Colors.accent600}
           autoCorrect={false}
         />
-        {text !== "" && (
-          <Animated.View style={animatedStyle}>
-            <Pressable
+        <Animated.View style={animatedStyle}>
+          <Pressable
             style={({ pressed }) => pressed && styles.pressed}
             onPress={onClearHandler}
           >
@@ -92,8 +82,7 @@ function SearchBar() {
               />
             </View>
           </Pressable>
-          </Animated.View>
-        )}
+        </Animated.View>
       </View>
     </View>
   );
