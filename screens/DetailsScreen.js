@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 import AppFonts from "../constants/app-fonts";
 import Colors from "../constants/colors";
 import { LinearGradient } from "expo-linear-gradient";
@@ -8,7 +8,7 @@ import ImageHeader from "../components/DetailsScreen/ImageHeader";
 import { formatDate } from "../utils/date-formatter";
 import { useState } from "react";
 import Reviews from "../components/DetailsScreen/Reviews";
-import Animated, { Easing, Layout } from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 import MoreDetails from "../components/DetailsScreen/MoreDetails";
 import { useRoute } from "@react-navigation/native";
 import LoadingIndicator from "../components/LoadingIndicator";

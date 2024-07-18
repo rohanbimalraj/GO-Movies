@@ -43,8 +43,6 @@ function TabBarScreen() {
         tabBarStyle: {
           backgroundColor: Colors.primary700,
           borderTopWidth: 0,
-          borderTopLeftRadius: 24,
-          borderTopRightRadius: 24,
           paddingTop: 10,
           position: "absolute",
           overflow: "hidden",
