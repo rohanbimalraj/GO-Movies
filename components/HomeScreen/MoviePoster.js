@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const BASE_URL = "https://image.tmdb.org/t/p/w342";
 
-function MoviePoster({ id, posterPath }) {
+function MoviePoster({ id, posterPath, width, height }) {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(true);
 
@@ -25,7 +25,7 @@ function MoviePoster({ id, posterPath }) {
   }
   return (
     <Pressable style={({pressed}) => pressed && styles.pressed} onPress={onPressHandler}>
-      <View style={styles.rootContainer}>
+      <View style={[styles.rootContainer, width && {width: width}]}>
         {loading && (
           <View style={styles.loader}>
             <ActivityIndicator size="large" color={Colors.primary600} />
@@ -33,7 +33,7 @@ function MoviePoster({ id, posterPath }) {
         )}
         <Image
           source={{ uri: BASE_URL + posterPath }}
-          style={styles.image}
+          style={[styles.image, width && {width: width, height: height}]}
           onLoad={onLoad}
         />
       </View>

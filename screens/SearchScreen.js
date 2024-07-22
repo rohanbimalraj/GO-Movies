@@ -1,17 +1,20 @@
-import { View, StyleSheet, SafeAreaView, Text } from "react-native";
+import { View, StyleSheet, SafeAreaView } from "react-native";
 import AppFonts from "../constants/app-fonts";
 import Colors from "../constants/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import SearchBar from "../components/SearchScreen/SearchBar";
 import { fetchMoviesWithTitle } from "../utils/https";
 import { useState } from "react";
+import MovieGrid from "../components/SearchScreen/MovieGrid";
 
 function SearchScreen() {
 
   const [movies, setMovies] = useState([])
+
   async function fetchMovies(title) {
     try {
       const response = await fetchMoviesWithTitle(title)
+      setMovies(response.data.results)
       console.log('Movies', response.data.results)
     } catch (error) {
       console.log(error)
@@ -21,7 +24,7 @@ function SearchScreen() {
   }
 
   function onClearHandler() {
-    console.log("On clear button clicked")
+    setMovies([])
   }
 
   return (
@@ -32,6 +35,7 @@ function SearchScreen() {
     <SafeAreaView style={styles.rootContainer}>
     <View style={styles.rootContainer}>
         <SearchBar onEndEditing={fetchMovies} onClear={onClearHandler}/>
+        <MovieGrid movies={movies}/>
       </View>
     </SafeAreaView>
     </LinearGradient>
