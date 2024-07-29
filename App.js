@@ -21,13 +21,17 @@ import Colors from "./constants/colors";
 import AppFonts from "./constants/app-fonts";
 import { useEffect, useState, useContext } from "react";
 import {
+  fetchMostWatchedMovies,
   fetchNowPlayingMovies,
   fetchPopularMovies,
+  fetchTopGrossingMovies,
   fetchTopRatedMovies,
+  fetchTrendingMovies,
   fetchUpcomingMovies,
 } from "./utils/https";
 import ErrorScreen from "./components/ErrorScreen";
 import { useRoute } from "@react-navigation/native";
+import { extract } from "./utils/extractor";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -90,24 +94,27 @@ function TabBarScreen() {
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
+  const [suggestedMovies, setSuggestedMovies] = useState([]);
+  const [topGrossingMovies, setTopGrossingMovies] = useState([]);
   const [popularMovies, setPopularMovies] = useState([]);
-  const [topRatedMovies, setTopRatedMovies] = useState([]);
-  const [upcomingMovies, setUpcomingMovies] = useState([]);
+  const [trendingMovies, setTrendingMovies] = useState([]);
+  const [mostWatchedMovies, setMostWatchedMovies] = useState([]);
 
   async function fetchData() {
     try {
-      const [response1, response2, response3, response4] = await Promise.all([
-        fetchNowPlayingMovies(),
-        fetchPopularMovies(2),
-        fetchTopRatedMovies(1),
-        fetchUpcomingMovies(2),
+      const [response1, response2, response3, response4, response5] = await Promise.all([
+        fetchPopularMovies(1, 20),
+        fetchTopGrossingMovies(),
+        fetchTrendingMovies(),
+        fetchPopularMovies(2, 20),
+        fetchMostWatchedMovies(),
       ]);
 
-      setNowPlayingMovies(response1.data.results);
-      setPopularMovies(response2.data.results);
-      setTopRatedMovies(response3.data.results);
-      setUpcomingMovies(response4.data.results);
+      setSuggestedMovies(extract(response1.data))
+      setTopGrossingMovies(extract(response2.data))
+      setTrendingMovies(extract(response3.data));
+      setPopularMovies(extract(response4.data));
+      setMostWatchedMovies(extract(response5.data))
 
       setError(null);
     } catch (error) {
@@ -150,10 +157,11 @@ export default function App() {
             name="Tab Bar"
             component={TabBarScreen}
             initialParams={{
-              nowPlayingMovies: nowPlayingMovies,
+              suggestedMovies: suggestedMovies,
+              topGrossingMovies: topGrossingMovies,
+              trendingMovies: trendingMovies,
               popularMovies: popularMovies,
-              topRatedMovies: topRatedMovies,
-              upcomingMovies: upcomingMovies,
+              mostWatchedMovies: mostWatchedMovies,
             }}
           />
           <Stack.Screen name="Details" component={DetailsScreen} />

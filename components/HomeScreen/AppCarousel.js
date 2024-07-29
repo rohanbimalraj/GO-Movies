@@ -6,7 +6,6 @@ import CarouselItem from "./CarouselItem";
 const width = Dimensions.get("window").width;
 
 function AppCarousel({ data, onSnapToItem }) {
-
   return (
     <View style={styles.container}>
       <Carousel
@@ -19,11 +18,7 @@ function AppCarousel({ data, onSnapToItem }) {
         onSnapToItem={onSnapToItem}
         renderItem={({ item }) => {
           return (
-            <CarouselItem
-              id={item.id}
-              backDropPath={item.backdrop_path}
-              title={item.original_title}
-            />
+            <CarouselItem item={item}/>
           );
         }}
       />

@@ -1,41 +1,100 @@
 import {
   View,
-  Image,
   StyleSheet,
   Pressable,
-  Dimensions,
-  ActivityIndicator,
+  ImageBackground,
+  Text,
 } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Colors from "../../constants/colors";
 import { useNavigation } from "@react-navigation/native";
+import AppFonts from "../../constants/app-fonts";
+import { fetchImagesOfMovie } from "../../utils/https";
+import { Image } from "expo-image";
+import { LinearGradient } from "expo-linear-gradient";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from "react-native-reanimated";
 
-const BASE_URL = "https://image.tmdb.org/t/p/w342";
-
-function MoviePoster({ id, posterPath, width, height }) {
+function MoviePoster({ id, title, width, height }) {
   const navigation = useNavigation();
-  const [loading, setLoading] = useState(true);
+  const [posterUrl, setPosterUrl] = useState(null);
+  const opacity = useSharedValue(1);
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }));
 
-  function onLoad() {
-    setLoading(false);
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  async function fetchData() {
+    try {
+      const result = await fetchImagesOfMovie(id);
+      if ("movieposter" in result.data) {
+        const posters = result.data.movieposter;
+        const poster = posters.find((obj) => obj.lang === "en");
+        setPosterUrl(poster.url);
+      }
+    } catch (error) {
+      console.log(
+        `Failed to load movie poster for ${id} with FanArt.Tv`,
+        error
+      );
+      console.log("Retrying with OMDB....");
+      const BASE_URL = "https://img.omdbapi.com";
+      const params = {
+        i: id,
+        apiKey: "9c286999",
+      };
+      const url = new URL(BASE_URL);
+      Object.keys(params).forEach((key) =>
+        url.searchParams.append(key, params[key])
+      );
+      setPosterUrl(url.toString());
+    }
+  }
+
+  function onLoadHandler() {
+    opacity.value = withTiming(0, { duration: 500 });
   }
 
   function onPressHandler() {
-    navigation.navigate("Details", {id: id});
+    navigation.navigate("Details", { id: id });
   }
-  return (
-    <Pressable style={({pressed}) => pressed && styles.pressed} onPress={onPressHandler}>
-      <View style={[styles.rootContainer, width && {width: width}]}>
-        {loading && (
-          <View style={styles.loader}>
-            <ActivityIndicator size="large" color={Colors.primary600} />
+
+  function DefaultBanner() {
+    return (
+      <ImageBackground
+        style={styles.backgroundImage}
+        source={require("../../assets/placeholders/placeholder-poster.jpeg")}
+      >
+        <LinearGradient
+          colors={["#00000000", "#000000"]}
+          style={styles.backgroundImage}
+        >
+          <View style={styles.titleContainer}>
+            <Text style={styles.title} numberOfLines={2}>
+              {title}
+            </Text>
           </View>
-        )}
-        <Image
-          source={{ uri: BASE_URL + posterPath }}
-          style={[styles.image, width && {width: width, height: height}]}
-          onLoad={onLoad}
-        />
+        </LinearGradient>
+      </ImageBackground>
+    );
+  }
+
+  return (
+    <Pressable
+      style={({ pressed }) => pressed && styles.pressed}
+      onPress={onPressHandler}
+    >
+      <View style={[styles.rootContainer, { width: width, height: height }]}>
+        <Image source={posterUrl} style={styles.image} onLoad={onLoadHandler} />
+        <Animated.View style={[styles.defaultBannerContainer, animatedStyle]}>
+          <DefaultBanner />
+        </Animated.View>
       </View>
     </Pressable>
   );
@@ -43,20 +102,38 @@ function MoviePoster({ id, posterPath, width, height }) {
 
 export default MoviePoster;
 
-const width = Dimensions.get("window").width;
-
 const styles = StyleSheet.create({
   rootContainer: {
-    width: width / 3,
+    borderRadius: 10,
     margin: 6,
+    backgroundColor: "red",
+    overflow: "hidden",
   },
   image: {
-    width: width / 3,
-    height: (1.5 * width) / 3,
-    borderRadius: 10,
+    width: "100%",
+    height: "100%",
   },
-  loader: {
-    borderRadius: 10,
+  pressed: {
+    opacity: 0.5,
+  },
+  titleContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    paddingBottom: 20,
+  },
+  title: {
+    fontFamily: AppFonts.SG_Bold,
+    fontSize: 16,
+    color: Colors.accent500,
+    textAlign: "center",
+  },
+  backgroundImage: {
+    width: "100%",
+    height: "100%",
+  },
+  defaultBannerContainer: {
     position: "absolute",
     top: 0,
     bottom: 0,
@@ -64,9 +141,5 @@ const styles = StyleSheet.create({
     right: 0,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.5)", // semi-transparent white background
   },
-  pressed: {
-    opacity: 0.5
-  }
 });
