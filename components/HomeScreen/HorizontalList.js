@@ -21,13 +21,13 @@ function HorizontalList({ title, data, isWeekly, disableClick }) {
           data={data}
           renderItem={({ item }) => (
             <MoviePoster
-              id={item.id}
+              ids={item.ids}
               title={item.title}
               width={width / 3}
               height={(1.5 * width) / 3}
             />
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.ids.imdb}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
         />

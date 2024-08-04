@@ -5,17 +5,18 @@ import AppFonts from "../../constants/app-fonts";
 import Colors from "../../constants/colors";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
-import { fetchImagesOfMovie } from "../../utils/https";
+import { fetchFallbackPoster } from "../../utils/https";
 import { Image } from "expo-image";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
+import { fetchThumbnail } from "../../utils/movies";
 
 function CarouselItem({ item }) {
   const navigation = useNavigation();
-  const id = item.id;
+  const id = item.ids.imdb;
   const title = item.title;
   const [posterUrl, setPosterUrl] = useState(null);
   const opacity = useSharedValue(1);
@@ -25,14 +26,10 @@ function CarouselItem({ item }) {
 
   async function fetchData() {
     try {
-      const result = await fetchImagesOfMovie(id);
-      if ("moviethumb" in result.data) {
-        const thumbnails = result.data.moviethumb;
-        const thumbnail = thumbnails.find((obj) => obj.lang === "en");
-        setPosterUrl(thumbnail.url);
-      }
+      const url = await fetchThumbnail(id)
+      setPosterUrl(url)
     } catch (error) {
-      console.log(`Failed to load movie thumbnail for ${id}`, error);
+      console.log(error.message);
     }
   }
   function onLoadHandler() {

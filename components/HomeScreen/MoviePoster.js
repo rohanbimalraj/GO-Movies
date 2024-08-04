@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 import Colors from "../../constants/colors";
 import { useNavigation } from "@react-navigation/native";
 import AppFonts from "../../constants/app-fonts";
-import { fetchImagesOfMovie } from "../../utils/https";
+import { fetchFallbackPoster } from "../../utils/https";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import Animated, {
@@ -17,8 +17,9 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
+import { fetchMoviePoster } from "../../utils/movies";
 
-function MoviePoster({ id, title, width, height }) {
+function MoviePoster({ ids, title, width, height }) {
   const navigation = useNavigation();
   const [posterUrl, setPosterUrl] = useState(null);
   const opacity = useSharedValue(1);
@@ -31,30 +32,9 @@ function MoviePoster({ id, title, width, height }) {
   }, []);
 
   async function fetchData() {
-    try {
-      const result = await fetchImagesOfMovie(id);
-      if ("movieposter" in result.data) {
-        const posters = result.data.movieposter;
-        const poster = posters.find((obj) => obj.lang === "en");
-        setPosterUrl(poster.url);
-      }
-    } catch (error) {
-      console.log(
-        `Failed to load movie poster for ${id} with FanArt.Tv`,
-        error
-      );
-      console.log("Retrying with OMDB....");
-      const BASE_URL = "https://img.omdbapi.com";
-      const params = {
-        i: id,
-        apiKey: "9c286999",
-      };
-      const url = new URL(BASE_URL);
-      Object.keys(params).forEach((key) =>
-        url.searchParams.append(key, params[key])
-      );
-      setPosterUrl(url.toString());
-    }
+    const url = await fetchMoviePoster(ids)
+    console.log('MOVIE POSTER', url)
+    setPosterUrl(url)
   }
 
   function onLoadHandler() {

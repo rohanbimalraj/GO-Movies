@@ -1,15 +1,20 @@
 export function extract(items) {
     const movies = items.map((item) => {
       const obj = {
-        id: '',
+        ids: {
+          imdb: '',
+          tmdb: ''
+        },
         title: ''
       }
       if ('movie' in item) {
       const movie = item.movie
-      obj.id = movie.ids.imdb
+      obj.ids.imdb = movie.ids.imdb
+      obj.ids.tmdb = movie.ids.tmdb
       obj.title = movie.title 
       } else  {
-        obj.id = item.ids.imdb
+        obj.ids.imdb = item.ids.imdb
+        obj.ids.tmdb = item.ids.tmdb
         obj.title = item.title
       }
       return obj

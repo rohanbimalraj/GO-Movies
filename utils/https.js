@@ -1,4 +1,5 @@
 import axios from "axios";
+import { func } from "prop-types";
 
 // axios.defaults.baseURL = 'https://api.themoviedb.org/3'
 // Replace with your token retrieval
@@ -11,7 +12,12 @@ import axios from "axios";
   });
   
   // Axios instance for getting movie images
-  const axiosImagesInstance = axios.create({
+  const axiosPosterInstance = axios.create({
+    baseURL: 'https://api.themoviedb.org/3/movie/',
+    timeout: 1000,
+    headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmNTQxNzBmMmNhZGQ0MTgzN2I5MWJhMWM2NzA5OTI4MyIsIm5iZiI6MTcyMjQyNTIyMi43MjM2NDMsInN1YiI6IjYxNGZlYmMwMmQ4ZWYzMDA0MjFjM2NiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.TBOOq5T6V792kWPlJXe9WUrdwYrO4vwaKRBAgFjOksU'}
+  })
+  const axiosFallbackPosterInstance = axios.create({
     baseURL: 'https://webservice.fanart.tv/v3',
     params: {'api_key': 'f06ae3a947abf9bca066eee80224cc94'}
   });
@@ -36,8 +42,12 @@ import axios from "axios";
     return axiosMoviesInstance.get(`/movies/${id}`, {params: {extended: 'full'}})
   }
 
-  export async function fetchImagesOfMovie(id) {
-    return axiosImagesInstance.get(`/movies/${id}`)
+  export async function fetchFallbackPoster(id) {
+    return axiosFallbackPosterInstance.get(`/movies/${id}`)
+  }
+
+  export async function fetchPoster(id) {
+    return axiosPosterInstance.get(`${id}/images`, {params: {language: 'en'}})
   }
 
 // export async function fetchNowPlayingMovies() {
