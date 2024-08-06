@@ -4,9 +4,7 @@ import AppFonts from "../../constants/app-fonts";
 import Colors from "../../constants/colors";
 
 function Reviews({ reviews }) {
-  const reversedArray = reviews.reverse()
-  const noReviews = reversedArray.length === 0
-
+  const noReviews = reviews.length === 0
   if (noReviews) {
     return <View style={styles.messageContainer}>
       <Text style={styles.message}>No reviews yet!!!</Text>
@@ -14,11 +12,11 @@ function Reviews({ reviews }) {
   }
   return (
     <View style={styles.container}>
-      {reversedArray.map((review) => (
+      {reviews.map((review) => (
         <ReviewCard
-          author={review.author}
+          author={review.user.username}
           date={review.updated_at}
-          review={review.content}
+          review={review.comment}
           key={review.id}
         />
       ))}

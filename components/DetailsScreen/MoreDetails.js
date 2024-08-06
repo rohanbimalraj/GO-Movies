@@ -2,18 +2,20 @@ import { View, StyleSheet, Text } from "react-native";
 import MoreDetailCard from "./MoreDetailCard";
 
 function MoreDetails({ credits }) {
+  const acting = credits.cast.map((item) => {
+    return item.person;
+  });
+  const directing = credits.crew.directing
+    .filter((person) => person.job === "Director")
+    .map((obj) => {
+      return obj.person;
+    });
 
-  const acting = credits.cast.filter(
-    (person) => person.known_for_department === "Acting"
-  );
-
-  const directing = credits.crew.filter(
-    (person) => person.known_for_department === "Directing"
-  );
-
-  const production = credits.crew.filter(
-    (person) => person.known_for_department === "Production"
-  );
+  const production = credits.crew.production
+    .filter((person) => person.job === "Producer")
+    .map((obj) => {
+      return obj.person;
+    });
 
   return (
     <View>

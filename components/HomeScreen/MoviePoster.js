@@ -9,7 +9,6 @@ import { useState, useEffect } from "react";
 import Colors from "../../constants/colors";
 import { useNavigation } from "@react-navigation/native";
 import AppFonts from "../../constants/app-fonts";
-import { fetchFallbackPoster } from "../../utils/https";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import Animated, {
@@ -32,9 +31,8 @@ function MoviePoster({ ids, title, width, height }) {
   }, []);
 
   async function fetchData() {
-    const url = await fetchMoviePoster(ids)
-    console.log('MOVIE POSTER', url)
-    setPosterUrl(url)
+    const url = await fetchMoviePoster(ids);
+    setPosterUrl(url);
   }
 
   function onLoadHandler() {
@@ -42,7 +40,9 @@ function MoviePoster({ ids, title, width, height }) {
   }
 
   function onPressHandler() {
-    navigation.navigate("Details", { id: id });
+    if (ids) {
+      navigation.navigate("Details", { ids: ids });
+    }
   }
 
   function DefaultBanner() {

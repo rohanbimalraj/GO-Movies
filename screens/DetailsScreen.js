@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions, Pressable } from "react-native";
 import AppFonts from "../constants/app-fonts";
 import Colors from "../constants/colors";
 import { LinearGradient } from "expo-linear-gradient";
@@ -12,13 +12,17 @@ import Animated from "react-native-reanimated";
 import MoreDetails from "../components/DetailsScreen/MoreDetails";
 import { useRoute } from "@react-navigation/native";
 import LoadingIndicator from "../components/LoadingIndicator";
-import { fetchMovieCredits, fetchMovieDetails, fetchMovieReviews } from "../utils/https";
+import { fetchComments, fetchMovieSummary, fetchPeople } from "../utils/https";
 import { useEffect } from "react";
 import ErrorScreen from "../components/ErrorScreen";
+import { convertToSingleDecimal } from "../utils/number-formatter";
+import { fetchBackdrop } from "../utils/movies";
+import { convertMinutesToHoursAndMinutes } from "../utils/minute-hour-converter";
+import TrailerButton from "../components/DetailsScreen/TrailerButton";
 
 const width = Dimensions.get("window").width;
 
-function ContenView({ movieDeatils }) {
+function ContenView({ movieDeatils, backdropUrl }) {
   const {details, reviews, credits} = movieDeatils
   const [index, setIndex] = useState(0);
   const [routes] = useState([
@@ -31,7 +35,7 @@ function ContenView({ movieDeatils }) {
       {...props}
       indicatorStyle={{ backgroundColor: Colors.accent600, height: 2 }}
       style={{ backgroundColor: "#00000000", shadowOpacity: 0, elevation: 0 }}
-      renderLabel={({ route, focused, color }) => (
+      renderLabel={({ route, focused }) => (
         <Text
           style={[styles.tabBarLabel, focused === false && { opacity: 0.7 }]}
         >
@@ -45,26 +49,28 @@ function ContenView({ movieDeatils }) {
     <SafeAreaView style={styles.rootContainer}>
       <ImageHeader
         title={details.title}
-        backdropPath={details.backdrop_path}
+        backdropUrl={backdropUrl}
       />
       <Animated.ScrollView>
         <Text style={styles.overviewTitle}>Overview</Text>
         <Text style={styles.overview}>{details.overview}</Text>
         <View style={styles.genresContainer}>
           {details.genres.map((genre) => (
-            <View key={genre.id} style={styles.genreContainer}>
-              <Text style={styles.genre}>{genre.name}</Text>
+            <View key={genre} style={styles.genreContainer}>
+              <Text style={styles.genre}>{genre}</Text>
             </View>
           ))}
         </View>
         <View style={styles.ratingAndReleaseContainer}>
           <Text style={styles.rating}>
-            TMDB {details.vote_average.toFixed(1)}
+            Rating {convertToSingleDecimal(details.rating)}
           </Text>
           <Text style={styles.date}>
-            {formatDate(details.release_date)}
+            {formatDate(details.released)}
           </Text>
+          <Text style={styles.runtime}>{convertMinutesToHoursAndMinutes(details.runtime)}</Text>
         </View>
+        <TrailerButton url={details.trailer}/>
         <TabView
           renderTabBar={renderTabBar}
           navigationState={{ index, routes }}
@@ -73,7 +79,7 @@ function ContenView({ movieDeatils }) {
           initialLayout={{ width: width }}
           swipeEnabled={false}
         />
-        {index === 0 && <Reviews reviews={reviews.results} />}
+        {index === 0 && <Reviews reviews={reviews} />}
         {index === 1 && <MoreDetails credits={credits} />}
       </Animated.ScrollView>
     </SafeAreaView>
@@ -82,18 +88,18 @@ function ContenView({ movieDeatils }) {
 
 function DetailsScreen() {
   const route = useRoute();
-  const { id } = route.params;
-  console.log('Movie Id', id)
+  const { ids } = route.params;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [movieDetails, setMovieDetails] = useState(null)
+  const [backdropUrl, setBackdropUrl] = useState(null)
 
   async function fetchData() {
     try {
-      const [response1, response2, response3, response4] = await Promise.all([
-        fetchMovieDetails(id),
-        fetchMovieReviews(id),
-        fetchMovieCredits(id)
+      const [response1, response2, response3] = await Promise.all([
+        fetchMovieSummary(ids.imdb),
+        fetchComments(ids.imdb),
+        fetchPeople(ids.imdb)
       ]);
 
       setMovieDetails({
@@ -109,7 +115,17 @@ function DetailsScreen() {
     setLoading(false);
   }
 
+  async function fetchBackdropUrl() {
+    try {
+      const backdropUrl = await fetchBackdrop(ids)
+      setBackdropUrl(backdropUrl)
+    } catch (error) {
+      console.log('BACKDROP IMAGE ERROR:',error.message)
+    }
+  }
+
   useEffect(() => {
+    fetchBackdropUrl()
     fetchData();
   }, []);
 
@@ -122,7 +138,7 @@ function DetailsScreen() {
       colors={[Colors.primary700, Colors.primary600]}
       style={styles.rootContainer}
     >
-      {loading ? <LoadingIndicator /> : <ContenView movieDeatils={movieDetails}/>}
+      {loading ? <LoadingIndicator /> : <ContenView movieDeatils={movieDetails} backdropUrl={backdropUrl}/>}
     </LinearGradient>
   );
 }
@@ -196,9 +212,15 @@ const styles = StyleSheet.create({
     fontFamily: AppFonts.SG_Bold,
     fontSize: 14,
   },
+  runtime: {
+    color: Colors.accent500,
+    fontFamily: AppFonts.SG_Bold,
+    fontSize: 14,
+    marginHorizontal: 20
+  },
   tabBarLabel: {
     color: Colors.accent500,
     fontSize: 14,
     fontFamily: AppFonts.SG_Bold,
-  },
+  }
 });

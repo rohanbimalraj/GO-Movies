@@ -16,7 +16,6 @@ import { fetchThumbnail } from "../../utils/movies";
 
 function CarouselItem({ item }) {
   const navigation = useNavigation();
-  const id = item.ids.imdb;
   const title = item.title;
   const [posterUrl, setPosterUrl] = useState(null);
   const opacity = useSharedValue(1);
@@ -26,7 +25,7 @@ function CarouselItem({ item }) {
 
   async function fetchData() {
     try {
-      const url = await fetchThumbnail(id)
+      const url = await fetchThumbnail(item.ids)
       setPosterUrl(url)
     } catch (error) {
       console.log(error.message);
@@ -36,7 +35,7 @@ function CarouselItem({ item }) {
     opacity.value = withTiming(0, { duration: 500 });
   }
   function onPressHandler() {
-    navigation.navigate("Details", { id: id });
+    navigation.navigate("Details", { ids: item.ids });
   }
 
   useEffect(() => {

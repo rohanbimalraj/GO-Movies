@@ -1,45 +1,28 @@
 import {
   View,
-  ImageBackground,
   Text,
   StyleSheet,
   Dimensions,
-  ActivityIndicator,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { useState } from "react";
 import Colors from "../../constants/colors";
 import AppFonts from "../../constants/app-fonts";
 import BackButton from "../BackButton";
-import { AntDesign } from "@expo/vector-icons";
 import FavouriteButton from "./FavouriteButton";
+import { Image } from 'expo-image'
 
-const BASE_URL = "https://image.tmdb.org/t/p/w780";
-
-function ImageHeader({ title, backdropPath }) {
-  const [loading, setLoading] = useState(true);
-  function onLoad() {
-    setLoading(false);
-  }
-
+function ImageHeader({ title, backdropUrl }) {
   return (
     <View style={styles.header}>
-      <ImageBackground
+      <Image
         style={styles.container}
-        source={{ uri: BASE_URL + backdropPath }}
-        imageStyle={styles.backDroup}
-        onLoad={onLoad}
+        source={backdropUrl}
+        placeholder={require('../../assets/placeholders/placeholder-background.jpeg')}
       >
         <LinearGradient
           colors={["#00000000", "#000000"]}
           style={[styles.container]}
         >
-          {loading && (
-            <View style={styles.loader}>
-              <ActivityIndicator size="large" color={Colors.primary600} />
-            </View>
-          )}
-
           <BackButton style={styles.backButton} />
           <View style={styles.titleContainer}>
             <View style={styles.bottomContainer}>
@@ -48,7 +31,7 @@ function ImageHeader({ title, backdropPath }) {
             </View>
           </View>
         </LinearGradient>
-      </ImageBackground>
+      </Image>
     </View>
   );
 }
@@ -85,16 +68,6 @@ const styles = StyleSheet.create({
   backButton: {
     paddingLeft: 10,
     paddingVertical: 10,
-  },
-  loader: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.5)", // semi-transparent white background
   },
   bottomContainer: {
     flexDirection: "row",
