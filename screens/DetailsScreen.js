@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { TabView, TabBar } from "react-native-tab-view";
 import ImageHeader from "../components/DetailsScreen/ImageHeader";
 import { formatDate } from "../utils/date-formatter";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Reviews from "../components/DetailsScreen/Reviews";
 import Animated from "react-native-reanimated";
 import MoreDetails from "../components/DetailsScreen/MoreDetails";
@@ -16,14 +16,13 @@ import { fetchComments, fetchMovieSummary, fetchPeople } from "../utils/https";
 import { useEffect } from "react";
 import ErrorScreen from "../components/ErrorScreen";
 import { convertToSingleDecimal } from "../utils/number-formatter";
-import { fetchBackdrop } from "../utils/movies";
 import { convertMinutesToHoursAndMinutes } from "../utils/minute-hour-converter";
 import TrailerButton from "../components/DetailsScreen/TrailerButton";
 
 const width = Dimensions.get("window").width;
 
-function ContenView({ movieDeatils, backdropUrl }) {
-  const {details, reviews, credits} = movieDeatils
+function ContenView({ movieDeatils, pageCount, ids }) {
+  const { details, reviews, credits } = movieDeatils;
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     { key: "reviews", title: "Reviews" },
@@ -47,10 +46,7 @@ function ContenView({ movieDeatils, backdropUrl }) {
 
   return (
     <SafeAreaView style={styles.rootContainer}>
-      <ImageHeader
-        title={details.title}
-        backdropUrl={backdropUrl}
-      />
+      <ImageHeader title={details.title} ids={ids} />
       <Animated.ScrollView>
         <Text style={styles.overviewTitle}>Overview</Text>
         <Text style={styles.overview}>{details.overview}</Text>
@@ -65,12 +61,12 @@ function ContenView({ movieDeatils, backdropUrl }) {
           <Text style={styles.rating}>
             Rating {convertToSingleDecimal(details.rating)}
           </Text>
-          <Text style={styles.date}>
-            {formatDate(details.released)}
+          <Text style={styles.date}>{formatDate(details.released)}</Text>
+          <Text style={styles.runtime}>
+            {convertMinutesToHoursAndMinutes(details.runtime)}
           </Text>
-          <Text style={styles.runtime}>{convertMinutesToHoursAndMinutes(details.runtime)}</Text>
         </View>
-        <TrailerButton url={details.trailer}/>
+        <TrailerButton url={details.trailer} />
         <TabView
           renderTabBar={renderTabBar}
           navigationState={{ index, routes }}
@@ -79,7 +75,7 @@ function ContenView({ movieDeatils, backdropUrl }) {
           initialLayout={{ width: width }}
           swipeEnabled={false}
         />
-        {index === 0 && <Reviews reviews={reviews} />}
+        {index === 0 && <Reviews reviews={reviews} pageCount={pageCount}/>}
         {index === 1 && <MoreDetails credits={credits} />}
       </Animated.ScrollView>
     </SafeAreaView>
@@ -91,22 +87,23 @@ function DetailsScreen() {
   const { ids } = route.params;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [movieDetails, setMovieDetails] = useState(null)
-  const [backdropUrl, setBackdropUrl] = useState(null)
+  const [movieDetails, setMovieDetails] = useState(null);
+  const pageCountRef = useRef(0);
 
   async function fetchData() {
     try {
       const [response1, response2, response3] = await Promise.all([
         fetchMovieSummary(ids.imdb),
         fetchComments(ids.imdb),
-        fetchPeople(ids.imdb)
+        fetchPeople(ids.imdb),
       ]);
 
+      pageCountRef.current = response2.headers["x-pagination-page-count"];
       setMovieDetails({
         details: response1.data,
         reviews: response2.data,
-        credits: response3.data
-      })
+        credits: response3.data,
+      });
       setError(null);
     } catch (error) {
       console.log(error);
@@ -115,22 +112,12 @@ function DetailsScreen() {
     setLoading(false);
   }
 
-  async function fetchBackdropUrl() {
-    try {
-      const backdropUrl = await fetchBackdrop(ids)
-      setBackdropUrl(backdropUrl)
-    } catch (error) {
-      console.log('BACKDROP IMAGE ERROR:',error.message)
-    }
-  }
-
   useEffect(() => {
-    fetchBackdropUrl()
     fetchData();
   }, []);
 
   if (error) {
-    return <ErrorScreen onRetry={fetchData}/>
+    return <ErrorScreen onRetry={fetchData} />;
   }
 
   return (
@@ -138,7 +125,15 @@ function DetailsScreen() {
       colors={[Colors.primary700, Colors.primary600]}
       style={styles.rootContainer}
     >
-      {loading ? <LoadingIndicator /> : <ContenView movieDeatils={movieDetails} backdropUrl={backdropUrl}/>}
+      {loading ? (
+        <LoadingIndicator />
+      ) : (
+        <ContenView
+          movieDeatils={movieDetails}
+          pageCount={pageCountRef.current}
+          ids={ids}
+        />
+      )}
     </LinearGradient>
   );
 }
@@ -180,7 +175,7 @@ const styles = StyleSheet.create({
   genresContainer: {
     flexDirection: "row",
     marginHorizontal: 15,
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
   },
   genre: {
     color: Colors.primary700,
@@ -193,7 +188,7 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: Colors.primary500,
     marginHorizontal: 5,
-    marginVertical: 5
+    marginVertical: 5,
   },
   ratingAndReleaseContainer: {
     flexDirection: "row",
@@ -216,11 +211,11 @@ const styles = StyleSheet.create({
     color: Colors.accent500,
     fontFamily: AppFonts.SG_Bold,
     fontSize: 14,
-    marginHorizontal: 20
+    marginHorizontal: 20,
   },
   tabBarLabel: {
     color: Colors.accent500,
     fontSize: 14,
     fontFamily: AppFonts.SG_Bold,
-  }
+  },
 });

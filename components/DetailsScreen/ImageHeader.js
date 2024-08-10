@@ -10,8 +10,23 @@ import AppFonts from "../../constants/app-fonts";
 import BackButton from "../BackButton";
 import FavouriteButton from "./FavouriteButton";
 import { Image } from 'expo-image'
+import { useEffect, useState } from "react";
+import { fetchBackdrop } from "../../utils/movies";
 
-function ImageHeader({ title, backdropUrl }) {
+function ImageHeader({ title, ids }) {
+  const [backdropUrl, setBackdropUrl] = useState(null);
+  async function fetchBackdropUrl() {
+    try {
+      const backdropUrl = await fetchBackdrop(ids);
+      setBackdropUrl(backdropUrl);
+    } catch (error) {
+      console.log("BACKDROP IMAGE ERROR:", error.message);
+    }
+  }
+  useEffect(() => {
+    fetchBackdropUrl();
+  }, []);
+
   return (
     <View style={styles.header}>
       <Image
