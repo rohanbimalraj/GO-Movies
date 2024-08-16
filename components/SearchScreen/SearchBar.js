@@ -96,7 +96,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary500,
     justifyContent: "center",
     marginHorizontal: 20,
-    marginVertical: 40,
+    marginTop: 40,
+    marginBottom: 20,
     borderRadius: 5,
   },
   horizontalContainer: {

@@ -1,12 +1,19 @@
 import { View, StyleSheet, FlatList, Text, Dimensions } from "react-native";
 import TitleButton from "./TitleButton";
 import MoviePoster from "./MoviePoster";
+import { useNavigation } from "@react-navigation/native";
 
 const width = Dimensions.get("window").width;
 
 function HorizontalList({ title, data, isWeekly, disableClick }) {
+  const navigation = useNavigation();
   function buttonPressHandler() {
-    console.log("More Button Pressed");
+    console.log(title);
+    navigation.navigate({
+      key: `UniqueKey-${Math.random()}`,
+      name: "SeeMore",
+      params: { title: title },
+    });
   }
   return (
     <View style={styles.rootContainer}>

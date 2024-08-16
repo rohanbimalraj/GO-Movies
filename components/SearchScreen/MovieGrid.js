@@ -7,11 +7,11 @@ function MovieGrid({ movies }) {
   return (
     <FlatList
       data={movies}
-      keyExtractor={(movie) => movie.id}
+      keyExtractor={(movie) => movie.ids.imdb}
       renderItem={({ item }) => (
         <MoviePoster
-          id={item.id}
-          posterPath={item.poster_path}
+          ids={item.ids}
+          title={item.title}
           width={width / 2.5}
           height={(1.5 * width) / 2.5}
         />

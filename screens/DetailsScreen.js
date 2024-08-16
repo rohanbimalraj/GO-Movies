@@ -1,29 +1,34 @@
-import { View, Text, StyleSheet, Dimensions, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Pressable,
+  ScrollView,
+} from "react-native";
 import AppFonts from "../constants/app-fonts";
 import Colors from "../constants/colors";
 import { LinearGradient } from "expo-linear-gradient";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { TabView, TabBar } from "react-native-tab-view";
 import ImageHeader from "../components/DetailsScreen/ImageHeader";
 import { formatDate } from "../utils/date-formatter";
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import Reviews from "../components/DetailsScreen/Reviews";
-import Animated from "react-native-reanimated";
 import MoreDetails from "../components/DetailsScreen/MoreDetails";
-import { useRoute } from "@react-navigation/native";
 import LoadingIndicator from "../components/LoadingIndicator";
 import { fetchComments, fetchMovieSummary, fetchPeople } from "../utils/https";
-import { useEffect } from "react";
 import ErrorScreen from "../components/ErrorScreen";
 import { convertToSingleDecimal } from "../utils/number-formatter";
 import { convertMinutesToHoursAndMinutes } from "../utils/minute-hour-converter";
 import TrailerButton from "../components/DetailsScreen/TrailerButton";
+import { useNavigation } from "@react-navigation/native";
 
 const width = Dimensions.get("window").width;
 
 function ContenView({ movieDeatils, pageCount, ids }) {
   const { details, reviews, credits } = movieDeatils;
   const [index, setIndex] = useState(0);
+  const navigation = useNavigation();
   const [routes] = useState([
     { key: "reviews", title: "Reviews" },
     { key: "moreDetails", title: "More Details" },
@@ -44,46 +49,57 @@ function ContenView({ movieDeatils, pageCount, ids }) {
     />
   );
 
+  function seeAllHandler() {
+    navigation.navigate({
+      key: `UniqueKey-${Math.random()}`,
+      name: "SeeMore",
+      params: { title: "Reviews", id: ids.imdb },
+    });
+  }
+
   return (
-    <SafeAreaView style={styles.rootContainer}>
+    <ScrollView>
       <ImageHeader title={details.title} ids={ids} />
-      <Animated.ScrollView>
-        <Text style={styles.overviewTitle}>Overview</Text>
-        <Text style={styles.overview}>{details.overview}</Text>
-        <View style={styles.genresContainer}>
-          {details.genres.map((genre) => (
-            <View key={genre} style={styles.genreContainer}>
-              <Text style={styles.genre}>{genre}</Text>
-            </View>
-          ))}
-        </View>
-        <View style={styles.ratingAndReleaseContainer}>
-          <Text style={styles.rating}>
-            Rating {convertToSingleDecimal(details.rating)}
-          </Text>
-          <Text style={styles.date}>{formatDate(details.released)}</Text>
-          <Text style={styles.runtime}>
-            {convertMinutesToHoursAndMinutes(details.runtime)}
-          </Text>
-        </View>
-        <TrailerButton url={details.trailer} />
-        <TabView
-          renderTabBar={renderTabBar}
-          navigationState={{ index, routes }}
-          renderScene={() => null}
-          onIndexChange={setIndex}
-          initialLayout={{ width: width }}
-          swipeEnabled={false}
+      <Text style={styles.overviewTitle}>Overview</Text>
+      <Text style={styles.overview}>{details.overview}</Text>
+      <View style={styles.genresContainer}>
+        {details.genres.map((genre) => (
+          <View key={genre} style={styles.genreContainer}>
+            <Text style={styles.genre}>{genre}</Text>
+          </View>
+        ))}
+      </View>
+      <View style={styles.ratingAndReleaseContainer}>
+        <Text style={styles.rating}>
+          Rating {convertToSingleDecimal(details.rating)}
+        </Text>
+        <Text style={styles.date}>{formatDate(details.released)}</Text>
+        <Text style={styles.runtime}>
+          {convertMinutesToHoursAndMinutes(details.runtime)}
+        </Text>
+      </View>
+      <TrailerButton url={details.trailer} />
+      <TabView
+        renderTabBar={renderTabBar}
+        navigationState={{ index, routes }}
+        renderScene={() => null}
+        onIndexChange={setIndex}
+        initialLayout={{ width: width }}
+        swipeEnabled={false}
+      />
+      {index === 0 && (
+        <Reviews
+          reviews={reviews}
+          pageCount={pageCount}
+          seeAll={seeAllHandler}
         />
-        {index === 0 && <Reviews reviews={reviews} pageCount={pageCount}/>}
-        {index === 1 && <MoreDetails credits={credits} />}
-      </Animated.ScrollView>
-    </SafeAreaView>
+      )}
+      {index === 1 && <MoreDetails credits={credits} />}
+    </ScrollView>
   );
 }
 
-function DetailsScreen() {
-  const route = useRoute();
+function DetailsScreen({ route }) {
   const { ids } = route.params;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -104,7 +120,9 @@ function DetailsScreen() {
         reviews: response2.data,
         credits: response3.data,
       });
-      setError(null);
+      if (error) {
+        setError(null);
+      }
     } catch (error) {
       console.log(error);
       setError(error);

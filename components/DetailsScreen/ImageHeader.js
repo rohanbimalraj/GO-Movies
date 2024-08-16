@@ -7,7 +7,6 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import Colors from "../../constants/colors";
 import AppFonts from "../../constants/app-fonts";
-import BackButton from "../BackButton";
 import FavouriteButton from "./FavouriteButton";
 import { Image } from 'expo-image'
 import { useEffect, useState } from "react";
@@ -38,7 +37,6 @@ function ImageHeader({ title, ids }) {
           colors={["#00000000", "#000000"]}
           style={[styles.container]}
         >
-          <BackButton style={styles.backButton} />
           <View style={styles.titleContainer}>
             <View style={styles.bottomContainer}>
               <Text style={styles.title}>{title}</Text>
@@ -80,15 +78,11 @@ const styles = StyleSheet.create({
     color: Colors.accent500,
     width: 300
   },
-  backButton: {
-    paddingLeft: 10,
-    paddingVertical: 10,
-  },
   bottomContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginLeft: 10,
+    marginLeft: 20,
     marginRight: 30,
   },
 });

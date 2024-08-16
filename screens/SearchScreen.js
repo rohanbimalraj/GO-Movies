@@ -6,16 +6,20 @@ import SearchBar from "../components/SearchScreen/SearchBar";
 import { fetchMoviesWithTitle } from "../utils/https";
 import { useState } from "react";
 import MovieGrid from "../components/SearchScreen/MovieGrid";
+import { extract } from "../utils/extractor";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 function SearchScreen() {
-
+  const tabBarHeight = useBottomTabBarHeight();
+  const inset = useSafeAreaInsets();
   const [movies, setMovies] = useState([])
 
   async function fetchMovies(title) {
     try {
       const response = await fetchMoviesWithTitle(title)
-      setMovies(response.data.results)
-      console.log('Movies', response.data.results)
+      setMovies(extract(response.data))
+      console.log('Movies', response.data)
     } catch (error) {
       console.log(error)
     } finally {
@@ -32,12 +36,10 @@ function SearchScreen() {
       colors={[Colors.primary700, Colors.primary600]}
       style={styles.rootContainer}
     >
-    <SafeAreaView style={styles.rootContainer}>
-    <View style={styles.rootContainer}>
+          <View style={[styles.rootContainer, {paddingTop: inset.top, paddingBottom: tabBarHeight + 8}]}>
         <SearchBar onEndEditing={fetchMovies} onClear={onClearHandler}/>
         <MovieGrid movies={movies}/>
       </View>
-    </SafeAreaView>
     </LinearGradient>
   );
 }

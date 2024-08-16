@@ -1,5 +1,4 @@
 import axios from "axios";
-import { func } from "prop-types";
 
   // Axios instance for getting movies
   const axiosMovieInstance = axios.create({
@@ -10,7 +9,7 @@ import { func } from "prop-types";
   // Axios instance for getting movie images
   const axiosPosterInstance = axios.create({
     baseURL: 'https://api.themoviedb.org/3/movie/',
-    timeout: 3000,
+    timeout: 1000,
     headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmNTQxNzBmMmNhZGQ0MTgzN2I5MWJhMWM2NzA5OTI4MyIsIm5iZiI6MTcyMjQyNTIyMi43MjM2NDMsInN1YiI6IjYxNGZlYmMwMmQ4ZWYzMDA0MjFjM2NiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.TBOOq5T6V792kWPlJXe9WUrdwYrO4vwaKRBAgFjOksU'}
   })
 
@@ -56,11 +55,16 @@ import { func } from "prop-types";
   }
 
   // Get comments made by audiance for a movie
-  export async function fetchComments(id) {
-    return axiosMovieInstance.get(`/movies/${id}/comments/newest`)
+  export async function fetchComments(id, page = 1, limit = 10) {
+    return axiosMovieInstance.get(`/movies/${id}/comments/newest`, {params: {page: page, limit: limit}})
   }
 
   // Get details regarding crew and cast of a movie
   export async function fetchPeople(id) {
     return axiosMovieInstance.get(`/movies/${id}/people`)
+  }
+
+  // Search movie by title
+  export async function fetchMoviesWithTitle(title) {
+    return axiosMovieInstance.get(`/search/movie`, {params: {query: title}})
   }

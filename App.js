@@ -19,19 +19,18 @@ import FavouritesScreen from "./screens/FavouritesScreen";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "./constants/colors";
 import AppFonts from "./constants/app-fonts";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import {
   fetchMostWatchedMovies,
-  fetchNowPlayingMovies,
   fetchPopularMovies,
   fetchTopGrossingMovies,
-  fetchTopRatedMovies,
   fetchTrendingMovies,
-  fetchUpcomingMovies,
 } from "./utils/https";
 import ErrorScreen from "./components/ErrorScreen";
 import { useRoute } from "@react-navigation/native";
 import { extract } from "./utils/extractor";
+import SeeMoreScreen from "./screens/SeeMoreScreen";
+import Header from "./components/Header";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -106,7 +105,7 @@ export default function App() {
         fetchPopularMovies(1, 20),
         fetchTopGrossingMovies(),
         fetchTrendingMovies(),
-        fetchPopularMovies(2, 20),
+        fetchPopularMovies(2),
         fetchMostWatchedMovies(),
       ]);
 
@@ -152,10 +151,11 @@ export default function App() {
     <>
       <StatusBar style="light" />
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator>
           <Stack.Screen
             name="Tab Bar"
             component={TabBarScreen}
+            options={{header: () => null}}
             initialParams={{
               suggestedMovies: suggestedMovies,
               topGrossingMovies: topGrossingMovies,
@@ -164,7 +164,8 @@ export default function App() {
               mostWatchedMovies: mostWatchedMovies,
             }}
           />
-          <Stack.Screen name="Details" component={DetailsScreen} />
+          <Stack.Screen name="Details" component={DetailsScreen} options={{header: () => <Header />}}/>
+          <Stack.Screen name="SeeMore" component={SeeMoreScreen} options={{header: () => <Header />}}/>
         </Stack.Navigator>
       </NavigationContainer>
     </>

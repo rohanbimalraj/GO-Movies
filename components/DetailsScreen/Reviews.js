@@ -4,11 +4,7 @@ import AppFonts from "../../constants/app-fonts";
 import Colors from "../../constants/colors";
 import SeeAllButton from "./SeeAllButton";
 
-function Reviews({ reviews, pageCount }) {
-
-  function seeAllHandler() {
-    console.log('SEE ALL PRESSED')
-  }
+function Reviews({ reviews, pageCount, seeAll }) {
   const noReviews = reviews.length === 0;
   if (noReviews) {
     return (
@@ -27,7 +23,7 @@ function Reviews({ reviews, pageCount }) {
           key={review.id}
         />
       ))}
-      {pageCount > 1 && <SeeAllButton onPress={seeAllHandler}/>}
+      {pageCount > 1 && <SeeAllButton onPress={seeAll}/>}
     </View>
   );
 }
