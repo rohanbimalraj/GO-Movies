@@ -6,21 +6,20 @@ import CarouselItem from "./CarouselItem";
 const width = Dimensions.get("window").width;
 
 function AppCarousel({ data, onSnapToItem }) {
+  function renderItem({ item }) {
+    return <CarouselItem item={item} />;
+  }
   return (
     <View style={styles.container}>
       <Carousel
         width={width}
-        height={width*0.6}
+        height={width * 0.6}
         data={data}
         autoPlay={true}
         scrollAnimationDuration={1000}
         autoPlayInterval={2000}
         onSnapToItem={onSnapToItem}
-        renderItem={({ item }) => {
-          return (
-            <CarouselItem item={item}/>
-          );
-        }}
+        renderItem={renderItem}
       />
     </View>
   );
@@ -34,5 +33,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: Colors.primary500,
-  }
+  },
 });

@@ -64,14 +64,11 @@ function SeeMoreScreen({ route, navigation }) {
       if (error) {
         setError(null);
       }
-      console.log(data);
     } catch (error) {
-      console.log(error);
       setError(error);
     } finally {
       setLoading(false);
     }
-    console.log("FETCH MORE DATA");
   }
 
   function renderFooter() {
@@ -79,6 +76,37 @@ function SeeMoreScreen({ route, navigation }) {
       return null;
     }
     return <ActivityIndicator style={styles.loader} color={Colors.accent600} />;
+  }
+
+  function renderItem({ item }) {
+    if (title === "Reviews") {
+      return (
+        <ReviewCard
+          author={item.user.username}
+          date={item.updated_at}
+          review={item.comment}
+        />
+      );
+    } else {
+      return (
+        <MoviePoster
+          ids={item.ids}
+          title={item.title}
+          width={width / 2.5}
+          height={(1.5 * width) / 2.5}
+        />
+      );
+    }
+  }
+
+  function getKeyFor(item) {
+    if (title === "Reviews") {
+      return item.id;
+    } else if (item.ids.imdb) {
+      return item.ids.imdb;
+    } else {
+      return item.ids.tmdb;
+    }
   }
 
   if (error) {
@@ -96,25 +124,8 @@ function SeeMoreScreen({ route, navigation }) {
         <View style={[styles.container, { paddingBottom: inset.bottom }]}>
           <FlatList
             data={data}
-            renderItem={({ item }) =>
-              title === "Reviews" ? (
-                <ReviewCard
-                  author={item.user.username}
-                  date={item.updated_at}
-                  review={item.comment}
-                />
-              ) : (
-                <MoviePoster
-                  ids={item.ids}
-                  title={item.title}
-                  width={width / 2.5}
-                  height={(1.5 * width) / 2.5}
-                />
-              )
-            }
-            keyExtractor={(item) =>
-              title === "Reviews" ? item.id : item.ids.imdb
-            }
+            renderItem={renderItem}
+            keyExtractor={getKeyFor}
             onEndReached={fetchMoreData}
             onEndReachedThreshold={0.5}
             ListFooterComponent={renderFooter}

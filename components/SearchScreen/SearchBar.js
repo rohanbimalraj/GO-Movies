@@ -33,9 +33,7 @@ function SearchBar({ onEndEditing, onClear }) {
   }, [text]);
 
   useEffect(() => {
-    if (debouncedText) {
-      onEndEditing(debouncedText)
-    }
+    onEndEditing(debouncedText)
   }, [debouncedText]);
 
   function onReturnHandler() {
@@ -43,7 +41,6 @@ function SearchBar({ onEndEditing, onClear }) {
   }
 
   function onTextChangeHandler(text) {
-    console.log(text);
     setText(text);
   }
 

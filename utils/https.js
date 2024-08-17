@@ -65,6 +65,6 @@ import axios from "axios";
   }
 
   // Search movie by title
-  export async function fetchMoviesWithTitle(title) {
-    return axiosMovieInstance.get(`/search/movie`, {params: {query: title}})
+  export async function fetchMoviesWithTitle(title, page = 1, limit = 10) {
+    return axiosMovieInstance.get(`/search/movie`, {params: {query: title, page: page, limit: limit}})
   }

@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import AppFonts from "../../constants/app-fonts";
 import Colors from "../../constants/colors";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { fetchFallbackPoster } from "../../utils/https";
 import { Image } from "expo-image";
 import Animated, {
@@ -14,7 +14,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { fetchThumbnail } from "../../utils/movies";
 
-function CarouselItem({ item }) {
+const CarouselItem = React.memo(({ item }) => {
   const navigation = useNavigation();
   const title = item.title;
   const [posterUrl, setPosterUrl] = useState(null);
@@ -25,8 +25,8 @@ function CarouselItem({ item }) {
 
   async function fetchData() {
     try {
-      const url = await fetchThumbnail(item.ids)
-      setPosterUrl(url)
+      const url = await fetchThumbnail(item.ids);
+      setPosterUrl(url);
     } catch (error) {
       console.log(error.message);
     }
@@ -42,7 +42,7 @@ function CarouselItem({ item }) {
     fetchData();
   }, []);
 
-  function DefaultBanner() {
+  const DefaultBanner = React.memo(() => {
     return (
       <ImageBackground
         style={styles.container}
@@ -58,7 +58,7 @@ function CarouselItem({ item }) {
         </LinearGradient>
       </ImageBackground>
     );
-  }
+  });
   return (
     <TouchableOpacity onPress={onPressHandler} activeOpacity={1.0}>
       <View style={styles.container}>
@@ -73,7 +73,7 @@ function CarouselItem({ item }) {
       </View>
     </TouchableOpacity>
   );
-}
+});
 
 export default CarouselItem;
 

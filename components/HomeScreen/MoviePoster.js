@@ -5,7 +5,7 @@ import {
   ImageBackground,
   Text,
 } from "react-native";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Colors from "../../constants/colors";
 import { useNavigation } from "@react-navigation/native";
 import AppFonts from "../../constants/app-fonts";
@@ -18,7 +18,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { fetchMoviePoster } from "../../utils/movies";
 
-function MoviePoster({ ids, title, width, height }) {
+const MoviePoster = React.memo(({ ids, title, width, height }) => {
   const navigation = useNavigation();
   const [posterUrl, setPosterUrl] = useState(null);
   const opacity = useSharedValue(1);
@@ -35,9 +35,9 @@ function MoviePoster({ ids, title, width, height }) {
     setPosterUrl(url);
   }
 
-  function onLoadHandler() {
+  const onLoadHandler = useCallback(() => {
     opacity.value = withTiming(0, { duration: 500 });
-  }
+  }, []);
 
   function onPressHandler() {
     if (ids) {
@@ -45,7 +45,7 @@ function MoviePoster({ ids, title, width, height }) {
     }
   }
 
-  function DefaultBanner() {
+  const DefaultBanner = React.memo(() => {
     return (
       <ImageBackground
         style={styles.backgroundImage}
@@ -63,7 +63,7 @@ function MoviePoster({ ids, title, width, height }) {
         </LinearGradient>
       </ImageBackground>
     );
-  }
+  });
 
   return (
     <Pressable
@@ -78,7 +78,7 @@ function MoviePoster({ ids, title, width, height }) {
       </View>
     </Pressable>
   );
-}
+});
 
 export default MoviePoster;
 

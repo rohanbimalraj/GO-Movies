@@ -3,7 +3,6 @@ import {
   Text,
   StyleSheet,
   Dimensions,
-  Pressable,
   ScrollView,
 } from "react-native";
 import AppFonts from "../constants/app-fonts";
@@ -22,6 +21,8 @@ import { convertToSingleDecimal } from "../utils/number-formatter";
 import { convertMinutesToHoursAndMinutes } from "../utils/minute-hour-converter";
 import TrailerButton from "../components/DetailsScreen/TrailerButton";
 import { useNavigation } from "@react-navigation/native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 
 const width = Dimensions.get("window").width;
 
@@ -104,6 +105,7 @@ function DetailsScreen({ route }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [movieDetails, setMovieDetails] = useState(null);
+  const inset = useSafeAreaInsets();
   const pageCountRef = useRef(0);
 
   async function fetchData() {
@@ -138,6 +140,19 @@ function DetailsScreen({ route }) {
     return <ErrorScreen onRetry={fetchData} />;
   }
 
+  if (ids.imdb === null) {
+    return (
+      <LinearGradient
+        colors={[Colors.primary700, Colors.primary600]}
+        style={styles.rootContainer}
+      >
+        <View style={styles.rootContainer}>
+          <Text style={[styles.noInfo, {paddingBottom: inset.top}]}> Oops info not available!!!</Text>
+        </View>
+      </LinearGradient>
+    );
+  }
+
   return (
     <LinearGradient
       colors={[Colors.primary700, Colors.primary600]}
@@ -161,6 +176,8 @@ export default DetailsScreen;
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   backButtonContainer: {
     alignItems: "flex-start",
@@ -236,4 +253,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: AppFonts.SG_Bold,
   },
+  noInfo: {
+    fontFamily: AppFonts.SG_Bold,
+    fontSize: 17, 
+    color: Colors.accent500
+  }
 });
