@@ -1,15 +1,22 @@
-import { View, StyleSheet, FlatList, Dimensions, ActivityIndicator } from "react-native";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  Dimensions,
+  ActivityIndicator,
+} from "react-native";
 import AppFonts from "../constants/app-fonts";
 import Colors from "../constants/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import SearchBar from "../components/SearchScreen/SearchBar";
 import { fetchMoviesWithTitle } from "../utils/https";
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { extract } from "../utils/extractor";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import MoviePoster from "../components/HomeScreen/MoviePoster";
 import LoadingIndicator from "../components/LoadingIndicator";
+import PlaceholderImage from "../components/PlaceholderImage";
 
 const width = Dimensions.get("window").width;
 
@@ -75,16 +82,47 @@ function SearchScreen() {
 
   function renderFooter() {
     if (isFetchingMore) {
-      return <ActivityIndicator style={styles.loader} color={Colors.accent600} />;
+      return (
+        <ActivityIndicator style={styles.loader} color={Colors.accent600} />
+      );
     }
     return null;
   }
 
   function getKeyFor(item) {
     if (item.ids.imdb) {
-      return item.ids.imdb
-    } else  {
-      return item.ids.tmdb
+      return item.ids.imdb;
+    } else {
+      return item.ids.tmdb;
+    }
+  }
+
+  function renderMainContent() {
+    if (loading === false && movies.length === 0) {
+      return <PlaceholderImage source={require('../assets/placeholders/placeholder-search.png')}/>
+    } else if (loading && currentPage.current === 1) {
+      return <LoadingIndicator />;
+    } else {
+      return (
+        <FlatList
+          data={movies}
+          keyExtractor={(movie) => getKeyFor(movie)}
+          renderItem={({ item }) => (
+            <MoviePoster
+              ids={item.ids}
+              title={item.title}
+              width={width / 2.5}
+              height={(1.5 * width) / 2.5}
+            />
+          )}
+          numColumns={2}
+          columnWrapperStyle={styles.row}
+          style={styles.container}
+          onEndReached={onEndReachedHandler}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={renderFooter}
+        />
+      );
     }
   }
 
@@ -103,28 +141,7 @@ function SearchScreen() {
           onEndEditing={onTextChangeHandler}
           onClear={onClearHandler}
         />
-        {loading && currentPage.current === 1 ? (
-          <LoadingIndicator />
-        ) : (
-          <FlatList
-            data={movies}
-            keyExtractor={(movie) => getKeyFor(movie)}
-            renderItem={({ item }) => (
-              <MoviePoster
-                ids={item.ids}
-                title={item.title}
-                width={width / 2.5}
-                height={(1.5 * width) / 2.5}
-              />
-            )}
-            numColumns={2}
-            columnWrapperStyle={styles.row}
-            style={styles.container}
-            onEndReached={onEndReachedHandler}
-            onEndReachedThreshold={0.5}
-            ListFooterComponent={renderFooter}
-          />
-        )}
+        {renderMainContent()}
       </View>
     </LinearGradient>
   );
@@ -147,5 +164,5 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingHorizontal: 20,
-  },
+  }
 });

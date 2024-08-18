@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, Pressable } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import ReviewCard from "./ReviewCard";
 import AppFonts from "../../constants/app-fonts";
 import Colors from "../../constants/colors";

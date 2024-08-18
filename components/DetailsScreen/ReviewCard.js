@@ -9,7 +9,7 @@ function ReviewCard({ author, date, review }) {
     <View style={styles.rootContainer}>
       <View>
         <View style={styles.authorConatiner}>
-          <Text style={styles.author}>{author}</Text>
+          <Text numberOfLines={1} style={styles.author}>{author}</Text>
           <Text style={styles.date}>{formatDate(date)}</Text>
         </View>
       </View>
@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     fontFamily: AppFonts.SG_Bold,
     fontSize: 17,
     color: Colors.accent500,
+    width: 200
   },
   date: {
     fontFamily: AppFonts.SG_Medium,
