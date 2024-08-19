@@ -40,7 +40,7 @@ function ImageHeader({ title, ids }) {
           <View style={styles.titleContainer}>
             <View style={styles.bottomContainer}>
               <Text style={styles.title}>{title}</Text>
-              <FavouriteButton />
+              <FavouriteButton ids={ids} title={title}/>
             </View>
           </View>
         </LinearGradient>
