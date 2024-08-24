@@ -99,7 +99,7 @@ function SearchScreen() {
 
   function renderMainContent() {
     if (loading === false && movies.length === 0) {
-      return <PlaceholderImage source={require('../assets/placeholders/placeholder-search.png')}/>
+      return <PlaceholderImage source={require('../../assets/placeholders/placeholder-search.png')}/>
     } else if (loading && currentPage.current === 1) {
       return <LoadingIndicator />;
     } else {

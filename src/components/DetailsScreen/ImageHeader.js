@@ -31,7 +31,7 @@ function ImageHeader({ title, ids }) {
       <Image
         style={styles.container}
         source={backdropUrl}
-        placeholder={require('../../assets/placeholders/placeholder-background.jpeg')}
+        placeholder={require('../../../assets/placeholders/placeholder-background.jpeg')}
       >
         <LinearGradient
           colors={["#00000000", "#000000"]}

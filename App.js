@@ -12,25 +12,25 @@ import {
   SpaceGrotesk_600SemiBold,
   SpaceGrotesk_700Bold,
 } from "@expo-google-fonts/space-grotesk";
-import DetailsScreen from "./screens/DetailsScreen";
-import HomeScreen from "./screens/HomeScreen";
-import SearchScreen from "./screens/SearchScreen";
-import FavouritesScreen from "./screens/FavouritesScreen";
+import DetailsScreen from "./src/screens/DetailsScreen";
+import HomeScreen from "./src/screens/HomeScreen";
+import SearchScreen from "./src/screens/SearchScreen";
+import FavouritesScreen from "./src/screens/FavouritesScreen";
 import { Ionicons } from "@expo/vector-icons";
-import Colors from "./constants/colors";
-import AppFonts from "./constants/app-fonts";
+import Colors from "./src/constants/colors";
+import AppFonts from "./src/constants/app-fonts";
 import { useEffect, useState } from "react";
 import {
   fetchMostWatchedMovies,
   fetchPopularMovies,
   fetchTopGrossingMovies,
   fetchTrendingMovies,
-} from "./utils/https";
-import ErrorScreen from "./components/ErrorScreen";
+} from "./src/utils/https";
+import ErrorScreen from "./src/components/ErrorScreen";
 import { useRoute } from "@react-navigation/native";
-import { extract } from "./utils/extractor";
-import SeeMoreScreen from "./screens/SeeMoreScreen";
-import Header from "./components/Header";
+import { extract } from "./src/utils/extractor";
+import SeeMoreScreen from "./src/screens/SeeMoreScreen";
+import Header from "./src/components/Header";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();

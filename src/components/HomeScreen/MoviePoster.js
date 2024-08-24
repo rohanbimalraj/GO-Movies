@@ -49,7 +49,7 @@ const MoviePoster = React.memo(({ ids, title, width, height }) => {
     return (
       <ImageBackground
         style={styles.backgroundImage}
-        source={require("../../assets/placeholders/placeholder-poster.jpeg")}
+        source={require("../../../assets/placeholders/placeholder-poster.jpeg")}
       >
         <LinearGradient
           colors={["#00000000", "#000000"]}
