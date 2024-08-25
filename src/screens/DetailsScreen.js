@@ -147,7 +147,7 @@ function DetailsScreen({ route }) {
         style={styles.rootContainer}
       >
         <View style={styles.rootContainer}>
-          <Text style={[styles.noInfo, {paddingBottom: inset.top}]}> Oops info not available!!!</Text>
+          <Text style={[styles.noInfo, {paddingBottom: inset.top}]}>Oops info not available!!!</Text>
         </View>
       </LinearGradient>
     );

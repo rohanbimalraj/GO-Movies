@@ -32,7 +32,7 @@ export const fetchHomeScreenMovies = createAsyncThunk(
         mostWatched: mostWatchedMovies,
       };
     } catch (error) {
-      rejectWithValue(error.message);
+      return rejectWithValue(error.message);
     }
   }
 );
