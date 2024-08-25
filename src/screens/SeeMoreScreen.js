@@ -8,7 +8,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import Colors from "../constants/colors";
 import { useLayoutEffect, useState, useRef, useEffect } from "react";
-import Header from "../components/Header";
+import Header from "../components/Navigation/Header";
 import ReviewCard from "../components/DetailsScreen/ReviewCard";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {

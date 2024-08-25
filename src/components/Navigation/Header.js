@@ -1,6 +1,6 @@
 import { View, StyleSheet, Text } from "react-native";
-import Colors from "../constants/colors";
-import AppFont from "../constants/app-fonts";
+import Colors from "../../constants/colors";
+import AppFont from "../../constants/app-fonts";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import BackButton from "./BackButton";
 

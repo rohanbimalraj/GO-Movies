@@ -8,13 +8,13 @@ import Colors from "../constants/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import HorizontalList from "../components/HomeScreen/HorizontalList";
-import { useRoute } from "@react-navigation/native";
 import MovieCarousel from "../components/HomeScreen/MovieCarousel";
+import { useSelector } from "react-redux";
+import { homeScreenMovies } from "../redux/homeSlice";
 
 function HomeScreen() {
-  const route = useRoute();
-  const movies = route.params;
   const tabBarHeight = useBottomTabBarHeight();
+  const { suggested, topGrossing, trending, popular, mostWatched} = useSelector(homeScreenMovies)
 
   return (
     <LinearGradient
@@ -24,24 +24,24 @@ function HomeScreen() {
       <View style={[styles.rootContainer, { marginBottom: tabBarHeight + 8 }]}>
         <SafeAreaView />
         <ScrollView showsVerticalScrollIndicator={false}>
-          <MovieCarousel movies={movies.suggestedMovies}/>
+          <MovieCarousel movies={suggested}/>
           <HorizontalList
             title="Top Grossing"
-            data={movies.topGrossingMovies}
+            data={topGrossing}
             isWeekly={true}
             disableClick={true}
           />
           <HorizontalList
             title="Trending"
-            data={movies.trendingMovies}
+            data={trending}
           />
           <HorizontalList
             title="Popular"
-            data={movies.popularMovies}
+            data={popular}
           />
           <HorizontalList
             title="Most Watched"
-            data={movies.mostWatchedMovies}
+            data={mostWatched}
             isWeekly={true}
           />
         </ScrollView>

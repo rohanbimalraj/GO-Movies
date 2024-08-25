@@ -1,6 +1,6 @@
 import { View, Image, Pressable, StyleSheet } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import Colors from "../constants/colors";
+import Colors from "../../constants/colors";
 import { useNavigation } from "@react-navigation/native";
 
 
