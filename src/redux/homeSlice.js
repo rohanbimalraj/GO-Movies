@@ -47,6 +47,7 @@ const initialState = {
   },
   loading: false,
   error: null,
+  didFetchData: false
 };
 const homeSlice = createSlice({
   name: "home",
@@ -61,6 +62,7 @@ const homeSlice = createSlice({
       .addCase(fetchHomeScreenMovies.fulfilled, (state, action) => {
         state.loading = false;
         state.movies = action.payload;
+        state.didFetchData = true
       })
       .addCase(fetchHomeScreenMovies.rejected, (state, action) => {
         state.loading = false;
@@ -80,5 +82,9 @@ export const homeScreenLoading = ({ home }) => {
 export const homeScreenError = ({ home }) => {
   return home.error;
 };
+
+export const homeScreenDidFetchData = ({ home }) => {
+    return home.didFetchData;
+  };
 
 export default homeSlice.reducer;

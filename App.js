@@ -10,17 +10,16 @@ import {
   SpaceGrotesk_700Bold,
 } from "@expo-google-fonts/space-grotesk";
 import { useEffect, useState } from "react";
-import ErrorScreen from "./src/components/ErrorScreen";
 import { Provider } from "react-redux";
 import store from "./src/redux/configureStore";
 import { fetchHomeScreenMovies } from "./src/redux/homeSlice";
 import RootNavigation from "./src/components/Navigation/RootNavigation";
 import * as Font from "expo-font";
+import LaunchScreen from "./src/screens/LaunchScreen";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  const [error, setError] = useState(null);
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
   useEffect(() => {
@@ -40,23 +39,17 @@ export default function App() {
 
   if (!fontsLoaded) {
     return <View></View>;
-  } else {
-    setTimeout(() => {
-      SplashScreen.hideAsync();
-    }, 3000);
-  }
-
-  if (error) {
-    return <ErrorScreen onRetry={fetchData} />;
   }
 
   return (
     <>
       <StatusBar style="light" />
       <Provider store={store}>
-        <NavigationContainer>
-          <RootNavigation />
-        </NavigationContainer>
+        <LaunchScreen>
+          <NavigationContainer>
+            <RootNavigation />
+          </NavigationContainer>
+        </LaunchScreen>
       </Provider>
     </>
   );
