@@ -3,10 +3,10 @@ import AppFonts from "../constants/app-fonts";
 import Colors from "../constants/colors";
 import { LinearGradient } from "expo-linear-gradient";
 
-function ErrorScreen({ onRetry }) {
+function ErrorScreen({ onRetry, enableBackground = true }) {
   return (
     <LinearGradient
-      colors={[Colors.primary700, Colors.primary600]}
+      colors={enableBackground ? [Colors.primary700, Colors.primary600] : ['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0)']}
       style={styles.rootContainer}
     >
       <View style={styles.rootContainer}>

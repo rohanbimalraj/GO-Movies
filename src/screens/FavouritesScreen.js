@@ -13,7 +13,6 @@ import { useCallback, useEffect, useState } from "react";
 import { fetchFavouriteMovies } from "../utils/favourites";
 import MoviePoster from "../components/HomeScreen/MoviePoster";
 import { useFocusEffect } from "@react-navigation/native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 const width = Dimensions.get("window").width;
@@ -40,7 +39,6 @@ function getKeysFor(item) {
 function FavouritesScreen() {
   const [data, setData] = useState([]);
   const tabBarHeight = useBottomTabBarHeight();
-  const inset = useSafeAreaInsets();
 
   async function fetchData() {
     const movies = await fetchFavouriteMovies();
@@ -63,13 +61,19 @@ function FavouritesScreen() {
           <View
             style={[styles.listContainer, { paddingBottom: tabBarHeight + 8 }]}
           >
-            <FlatList
-              data={data}
-              renderItem={renderItem}
-              keyExtractor={getKeysFor}
-              numColumns={2}
-              columnWrapperStyle={{ justifyContent: "space-between" }}
-            />
+            {data.length === 0 ? (
+              <View style={styles.messageContainer}>
+                <Text style={styles.message}>No movies added yet!!!</Text>
+              </View>
+            ) : (
+              <FlatList
+                data={data}
+                renderItem={renderItem}
+                keyExtractor={getKeysFor}
+                numColumns={2}
+                columnWrapperStyle={{ justifyContent: "space-between" }}
+              />
+            )}
           </View>
         </SafeAreaView>
       </View>
@@ -92,4 +96,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
   },
+  message: {
+    fontFamily: AppFonts.SG_Bold,
+    fontSize: 20,
+    color: Colors.accent500,
+  },
+  messageContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: "100%",
+    height: "100%",
+  }
 });

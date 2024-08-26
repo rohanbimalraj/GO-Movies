@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  ScrollView,
-} from "react-native";
+import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
 import AppFonts from "../constants/app-fonts";
 import Colors from "../constants/colors";
 import { LinearGradient } from "expo-linear-gradient";
@@ -22,7 +16,6 @@ import { convertMinutesToHoursAndMinutes } from "../utils/minute-hour-converter"
 import TrailerButton from "../components/DetailsScreen/TrailerButton";
 import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
 
 const width = Dimensions.get("window").width;
 
@@ -109,6 +102,8 @@ function DetailsScreen({ route }) {
   const pageCountRef = useRef(0);
 
   async function fetchData() {
+    setLoading(true)
+    setError(null)
     try {
       const [response1, response2, response3] = await Promise.all([
         fetchMovieSummary(ids.imdb),
@@ -128,8 +123,9 @@ function DetailsScreen({ route }) {
     } catch (error) {
       console.log(error);
       setError(error);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   useEffect(() => {
@@ -147,7 +143,9 @@ function DetailsScreen({ route }) {
         style={styles.rootContainer}
       >
         <View style={styles.rootContainer}>
-          <Text style={[styles.noInfo, {paddingBottom: inset.top}]}>Oops info not available!!!</Text>
+          <Text style={[styles.noInfo, { paddingBottom: inset.top }]}>
+            Oops info not available!!!
+          </Text>
         </View>
       </LinearGradient>
     );
@@ -176,8 +174,8 @@ export default DetailsScreen;
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center",
   },
   backButtonContainer: {
     alignItems: "flex-start",
@@ -255,7 +253,7 @@ const styles = StyleSheet.create({
   },
   noInfo: {
     fontFamily: AppFonts.SG_Bold,
-    fontSize: 17, 
-    color: Colors.accent500
-  }
+    fontSize: 17,
+    color: Colors.accent500,
+  },
 });

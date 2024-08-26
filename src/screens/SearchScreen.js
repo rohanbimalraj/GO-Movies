@@ -17,6 +17,7 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import MoviePoster from "../components/HomeScreen/MoviePoster";
 import LoadingIndicator from "../components/LoadingIndicator";
 import PlaceholderImage from "../components/PlaceholderImage";
+import ErrorScreen from "../components/ErrorScreen";
 
 const width = Dimensions.get("window").width;
 
@@ -29,12 +30,14 @@ function SearchScreen() {
   const currentTitle = useRef("");
   const [isFetchingMore, setIsFetchingMore] = useState(false);
   const [movies, setMovies] = useState([]);
+  const [error, setError] = useState(null);
 
   function onTextChangeHandler(title) {
     setMovies([]);
     currentTitle.current = title;
     currentPage.current = 1;
     totalPages.current = 1;
+    setError(null)
     if (title.length > 0) {
       fetchMovies();
     }
@@ -44,6 +47,7 @@ function SearchScreen() {
     if (loading || isFetchingMore) {
       return;
     }
+    setError(null);
     setLoading(true);
     try {
       const response = await fetchMoviesWithTitle(
@@ -58,7 +62,7 @@ function SearchScreen() {
         setMovies((previousValue) => [...previousValue, ...newValue]);
       }
     } catch (error) {
-      console.log(error);
+      setError(error.message);
     } finally {
       setLoading(false);
       setIsFetchingMore(false);
@@ -66,6 +70,7 @@ function SearchScreen() {
   }
 
   function onClearHandler() {
+    setError(null)
     setMovies([]);
     currentTitle.current = "";
     currentPage.current = 1;
@@ -98,8 +103,14 @@ function SearchScreen() {
   }
 
   function renderMainContent() {
-    if (loading === false && movies.length === 0) {
-      return <PlaceholderImage source={require('../../assets/placeholders/placeholder-search.png')}/>
+    if (error) {
+      return <ErrorScreen onRetry={fetchMovies} enableBackground={false}/>;
+    } else if (loading === false && movies.length === 0) {
+      return (
+        <PlaceholderImage
+          source={require("../../assets/placeholders/placeholder-search.png")}
+        />
+      );
     } else if (loading && currentPage.current === 1) {
       return <LoadingIndicator />;
     } else {

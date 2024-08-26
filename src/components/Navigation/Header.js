@@ -7,7 +7,7 @@ import BackButton from "./BackButton";
 function Header({ title }) {
   const inset = useSafeAreaInsets();
   return (
-    <View style={[styles.header, { paddingTop: inset.top }]}>
+    <View style={[styles.header, { paddingTop: inset.top + 10 }]}>
       <Text style={styles.title}>{title}</Text>
       <View style={styles.backButtonContainer}>
         <BackButton />

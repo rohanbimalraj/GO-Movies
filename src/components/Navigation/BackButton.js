@@ -28,7 +28,8 @@ export default BackButton;
 const styles = StyleSheet.create({
   container: {
     paddingVertical: 8,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
+    paddingBottom: 10
   },
   pressed: {
     opacity: 0.5
