@@ -66,6 +66,7 @@ const CarouselItem = React.memo(({ item }) => {
           style={styles.thumbnail}
           source={{ uri: posterUrl }}
           onLoad={onLoadHandler}
+          priority='high'
         />
         <Animated.View style={[styles.defaultBannerContainer, animatedStyle]}>
           <DefaultBanner />
