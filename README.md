@@ -22,6 +22,16 @@
 - **React Navigation**
 - **Redux ToolKit**
 
+## Screenshots
+
+<div>
+<img src="./screenshots/launch-6.5.png" height="400">
+<img src="./screenshots/home-6.5.png" height="400">
+<img src="./screenshots/detail-6.5.png" height="400">
+<img src="./screenshots/search-6.5.png" height="400">
+<img src="./screenshots/favourite-6.5.png" height="400">
+</div>
+
 
 ## Environment Variables
 
@@ -50,15 +60,4 @@ Start the server
 ```bash
   npx expo run
 ```
-
-
-## Screenshots
-
-<div>
-<img src="./screenshots/launch-6.5.png" height="400">
-<img src="./screenshots/home-6.5.png" height="400">
-<img src="./screenshots/detail-6.5.png" height="400">
-<img src="./screenshots/search-6.5.png" height="400">
-<img src="./screenshots/favourite-6.5.png" height="400">
-</div>
 
