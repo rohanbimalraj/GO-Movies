@@ -66,7 +66,7 @@ export async function fetchBackdrop(ids) {
 }
 
 function getDefaultUrl(id) {
-  const BASE_URL = "http://img.omdbapi.com";
+  const BASE_URL = ""; // Add OMDB API Key here
   const params = {
     i: id,
     apiKey: "9c286999",
