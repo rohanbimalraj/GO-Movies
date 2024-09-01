@@ -5,7 +5,7 @@
 </p>
 
 <h2 align="center">
-    TuneSync
+    GO-Movies
 </h2>
 
 <p align="center">
@@ -13,6 +13,11 @@
 </p>
 
 <div align="center">
+
+![Platform - iOS](https://img.shields.io/badge/platform-iOS-blue.svg)
+![Platform - iOS](https://img.shields.io/badge/platform-andriod-red.svg)
+
+</div>
 
 Go Movies is a React Native app that serves as your go-to movie companion. It provides users with comprehensive movie descriptions, detailed cast and crew information, and user ratings.
 ## Tech Stack
