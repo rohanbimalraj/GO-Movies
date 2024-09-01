@@ -18,7 +18,9 @@
 
 ## Tech Stack
 
-**Expo**, **React Navigation**, **Redux ToolKit**
+- **Expo**
+- **React Navigation**
+- **Redux ToolKit**
 
 
 ## Environment Variables
