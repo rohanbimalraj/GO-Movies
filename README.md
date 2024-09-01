@@ -1,15 +1,7 @@
 
 <p align="center">
 <kbd>
-  <img style="width:100px; height:100px; border-radius:20%;" class="rounded-image" src="./assets/icon.png" alt="logo" height="150"/></kbd>
-</p>
-
-<h2 align="center">
-    GO-Movies
-</h2>
-
-<p align="center">
-
+  <img style="width:200px; height:200px; border-radius:20%;" class="rounded-image" src="./assets/icon.png" alt="logo" height="250"/></kbd>
 </p>
 
 <div align="center">
@@ -19,7 +11,14 @@
 
 </div>
 
-Go Movies is a React Native app that serves as your go-to movie companion. It provides users with comprehensive movie descriptions, detailed cast and crew information, and user ratings.
+<h2 align="center">
+   Go Movies is a React Native app that serves as your go-to movie companion. It provides users with comprehensive movie descriptions, detailed cast and crew information, and user ratings.
+</h2>
+
+<p align="center">
+
+</p>
+
 ## Tech Stack
 
 **Expo**, **React Navigation**, **Redux ToolKit**
