@@ -25,13 +25,13 @@
 
 ## Environment Variables
 
-To run this project, you will need to get your own API Keys from the following providers:
+1. To run this project, you will need to get your own API Keys from the following providers:
 
 - [Trakt](https://trakt.docs.apiary.io/#)
 - [TMDB](https://developer.themoviedb.org/reference/intro/getting-started)
 - [Fanart.Tv](https://fanart.tv/get-an-api-key/)
 - [OMDB]()
-Add TMDB, Trakt, Fanart.Tv API Keys in `/src/utils/https.js` and OMDB in `/src/utils/movies.js`
+2. Add TMDB, Trakt, Fanart.Tv API Keys in `/src/utils/https.js` and OMDB in `/src/utils/movies.js`
 
 (***TMDB is blocked by some ISPs in India and hence had to rely on other alternatives like Trakt, Fanart, OMDB***)
 
