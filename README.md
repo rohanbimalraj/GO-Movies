@@ -54,5 +54,11 @@ Start the server
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+<div>
+<img src="./screenshots/launch-6.5.png" height="400">
+<img src="./screenshots/home-6.5.png" height="400">
+<img src="./screenshots/detail-6.5.png" height="400">
+<img src="./screenshots/search-6.5.png" height="400">
+<img src="./screenshots/favourite-6.5.png" height="400">
+</div>
 
