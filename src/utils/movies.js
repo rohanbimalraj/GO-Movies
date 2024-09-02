@@ -69,7 +69,7 @@ function getDefaultUrl(id) {
   const BASE_URL = "http://img.omdbapi.com";
   const params = {
     i: id,
-    apiKey: "9c286999",
+    apiKey: "", // OMDB API
   };
   const url = new URL(BASE_URL);
   Object.keys(params).forEach((key) =>

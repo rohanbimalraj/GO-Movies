@@ -3,20 +3,20 @@ import axios from "axios";
   // Axios instance for getting movies
   const axiosMovieInstance = axios.create({
     baseURL: 'https://api.trakt.tv',
-    headers: {'trakt-api-key': '6c59d87ff8566c997c62c38b1c31f6d088f4a1902f3239afe3eb321f60cb8341'}
+    headers: {'trakt-api-key': ''} // Trakt API Key
   });
   
   // Axios instance for getting movie images
   const axiosPosterInstance = axios.create({
     baseURL: 'https://api.themoviedb.org/3/movie/',
     timeout: 1000,
-    headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmNTQxNzBmMmNhZGQ0MTgzN2I5MWJhMWM2NzA5OTI4MyIsIm5iZiI6MTcyMjQyNTIyMi43MjM2NDMsInN1YiI6IjYxNGZlYmMwMmQ4ZWYzMDA0MjFjM2NiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.TBOOq5T6V792kWPlJXe9WUrdwYrO4vwaKRBAgFjOksU'}
+    headers: {'Authorization': ''} // TMDB API
   })
 
   // Axios instance for getting movie images as a fallback
   const axiosFallbackPosterInstance = axios.create({
     baseURL: 'https://webservice.fanart.tv/v3',
-    params: {'api_key': 'f06ae3a947abf9bca066eee80224cc94'}
+    params: {'api_key': ''} // Fanart.Tv API
   });
 
   // Get top 10 grossing movies in US in last week
