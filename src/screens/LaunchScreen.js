@@ -64,7 +64,7 @@ function LaunchScreen({ children }) {
             source={require("../../assets/splash.png")}
             onLoadEnd={onImageLoaded}
             style={[styles.launchImage]}
-            resizeMode="contain"
+            resizeMode='cover'
             fadeDuration={0}
           />
         </Animated.View>
