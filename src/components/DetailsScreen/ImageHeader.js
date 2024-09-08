@@ -32,10 +32,12 @@ function ImageHeader({ title, ids }) {
         style={styles.container}
         source={backdropUrl}
         placeholder={require('../../../assets/placeholders/placeholder-background.jpeg')}
-      >
-        <LinearGradient
+        contentFit='cover'
+        placeholderContentFit='cover'
+      />
+      <LinearGradient
           colors={["#00000000", "#000000"]}
-          style={[styles.container]}
+          style={styles.contentContainer}
         >
           <View style={styles.titleContainer}>
             <View style={styles.bottomContainer}>
@@ -44,7 +46,6 @@ function ImageHeader({ title, ids }) {
             </View>
           </View>
         </LinearGradient>
-      </Image>
     </View>
   );
 }
@@ -61,6 +62,13 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: "100%",
+  },
+  contentContainer: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0
   },
   backDroup: {
     width: width,

@@ -14,6 +14,7 @@ import { fetchFavouriteMovies } from "../utils/favourites";
 import MoviePoster from "../components/HomeScreen/MoviePoster";
 import { useFocusEffect } from "@react-navigation/native";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const width = Dimensions.get("window").width;
 
@@ -39,6 +40,7 @@ function getKeysFor(item) {
 function FavouritesScreen() {
   const [data, setData] = useState([]);
   const tabBarHeight = useBottomTabBarHeight();
+  const inset = useSafeAreaInsets();
 
   async function fetchData() {
     const movies = await fetchFavouriteMovies();
@@ -57,9 +59,8 @@ function FavouritesScreen() {
       style={styles.rootContainer}
     >
       <View style={styles.rootContainer}>
-        <SafeAreaView style={styles.rootContainer}>
-          <View
-            style={[styles.listContainer, { paddingBottom: tabBarHeight + 8 }]}
+      <View
+            style={[styles.listContainer, { paddingBottom: tabBarHeight + 8, marginTop: inset.top }]}
           >
             {data.length === 0 ? (
               <View style={styles.messageContainer}>
@@ -75,7 +76,6 @@ function FavouritesScreen() {
               />
             )}
           </View>
-        </SafeAreaView>
       </View>
     </LinearGradient>
   );

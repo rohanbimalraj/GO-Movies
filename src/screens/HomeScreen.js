@@ -13,8 +13,10 @@ import {
 } from "../redux/homeSlice";
 import ErrorScreen from "../components/ErrorScreen";
 import LoadingIndicator from "../components/LoadingIndicator";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function HomeScreen() {
+  const inset = useSafeAreaInsets();
   const dispatch = useDispatch();
   const tabBarHeight = useBottomTabBarHeight();
   const { suggested, topGrossing, trending, popular, mostWatched } =
@@ -35,8 +37,7 @@ function HomeScreen() {
       colors={[Colors.primary700, Colors.primary600]}
       style={styles.rootContainer}
     >
-      <View style={[styles.rootContainer, { marginBottom: tabBarHeight + 8 }]}>
-        <SafeAreaView />
+      <View style={[styles.rootContainer, { marginBottom: tabBarHeight + 8, marginTop: inset.top }]}>
         {loading ? (
           <LoadingIndicator />
         ) : (
