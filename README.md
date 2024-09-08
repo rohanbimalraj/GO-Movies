@@ -15,6 +15,9 @@
 <strong>Go-Movies</strong> is a React Native app that serves as your go-to movie companion. It provides users with comprehensive movie descriptions, detailed cast and crew information, and user ratings.
 </p>
 
+## Download Links 📥
+    - [iOS](https://apps.apple.com/uz/app/go-movies/id6670488630)
+    - [Android](https://drive.google.com/file/d/18MTZuGpDx1VsvZUwxfqyBt_eArb45Jc4/view?usp=sharing)
 
 ## Tech Stack
 
