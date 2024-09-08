@@ -16,7 +16,8 @@
     ],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.rohan.GO-Movies"
+      "bundleIdentifier": "com.rohan.GO-Movies",
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {

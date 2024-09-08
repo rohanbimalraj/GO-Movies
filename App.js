@@ -66,3 +66,7 @@ export default function App() {
 // Run app without server on device
 // 1) "developmentClient": false
 // 2) eas build --profile development --platform ios --local
+
+// Submit the app to app store
+// 1) eas build --platform ios
+// 2) eas submit --platform ios
