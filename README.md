@@ -16,8 +16,8 @@
 </p>
 
 ## Download Links 📥
-    - [iOS](https://apps.apple.com/uz/app/go-movies/id6670488630)
-    - [Android](https://drive.google.com/file/d/18MTZuGpDx1VsvZUwxfqyBt_eArb45Jc4/view?usp=sharing)
+- [iOS](https://apps.apple.com/uz/app/go-movies/id6670488630)
+- [Android](https://drive.google.com/file/d/18MTZuGpDx1VsvZUwxfqyBt_eArb45Jc4/view?usp=sharing)
 
 ## Tech Stack
 
